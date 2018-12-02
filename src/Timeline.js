@@ -7,10 +7,11 @@ import sizeMe from 'react-sizeme'
 
 const x = scaleLinear()
 const y = scaleLinear().range([400, 0])
-const generator = line().x(d => x(d.get('t'))).y(d => y(d.get('d')))
+const generator = line()
+  .x(d => x(d.get('t')))
+  .y(d => y(d.get('d')))
 
-export default sizeMe()(function Timeline({data, size}) {
-
+export default sizeMe()(function Timeline({ data, size }) {
   const { width } = size
   const series = data.toArray()
   const dateExtent = extent(series, d => d.get('t'))
@@ -19,16 +20,11 @@ export default sizeMe()(function Timeline({data, size}) {
   x.domain(dateExtent).range([0, width])
   y.domain(pointExtent)
 
-  console.log(
-    size,
-    'ε', dateExtent,
-    'δ', pointExtent,
-    React
+  return (
+    <React.Fragment>
+      <svg className={style.frame}>
+        <path className={style.series} d={generator(data.toArray())} />
+      </svg>
+    </React.Fragment>
   )
-
-  return <React.Fragment>
-    <svg className={style.frame}>
-      <path className={style.series} d={generator(data.toArray())}/>
-    </svg>
-  </React.Fragment>
 })
