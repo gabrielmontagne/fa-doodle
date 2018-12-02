@@ -4,7 +4,9 @@
   "private": true,
   "dependencies": {
     "caballo-vivo": "git+ssh://git@github.com/zambezi/caballo-vivo.git",
+    "immutable": "^4.0.0-rc.12",
     "perlin-noise": "0.0.1",
+    "ramda": "^0.26.1",
     "react": "^16.6.3",
     "react-dom": "^16.6.3",
     "react-scripts": "2.1.1",

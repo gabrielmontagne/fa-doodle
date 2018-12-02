@@ -1,7 +1,5 @@
-import React from 'react'
-import ReactDOM from 'react-dom'
 import './index.css'
-import Timeline from './Timeline'
-import './services'
+import render$ from './view'
+import store$ from './store'
 
-ReactDOM.render(<Timeline />, document.getElementById('root'))
+store$.subscribe(render$)
