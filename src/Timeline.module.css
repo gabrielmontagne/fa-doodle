@@ -4,3 +4,8 @@
   height: 400px;
   
 }
+
+.series {
+  fill: none;
+  stroke: green;
+}

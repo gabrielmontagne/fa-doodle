@@ -4,6 +4,7 @@
   "private": true,
   "dependencies": {
     "caballo-vivo": "git+ssh://git@github.com/zambezi/caballo-vivo.git",
+    "d3-array": "^2.0.2",
     "d3-scale": "^2.1.2",
     "d3-shape": "^1.2.2",
     "immutable": "^4.0.0-rc.12",
@@ -12,6 +13,7 @@
     "react": "^16.6.3",
     "react-dom": "^16.6.3",
     "react-scripts": "2.1.1",
+    "react-sizeme": "^2.5.2",
     "rxjs": "^5.5.12"
   },
   "scripts": {
