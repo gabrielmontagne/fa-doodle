@@ -4,6 +4,8 @@
   "private": true,
   "dependencies": {
     "caballo-vivo": "git+ssh://git@github.com/zambezi/caballo-vivo.git",
+    "d3-scale": "^2.1.2",
+    "d3-shape": "^1.2.2",
     "immutable": "^4.0.0-rc.12",
     "perlin-simplex": "0.0.3",
     "ramda": "^0.26.1",
