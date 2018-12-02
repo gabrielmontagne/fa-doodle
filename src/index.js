@@ -1,6 +1,7 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
 import './index.css'
+import Timeline from './Timeline'
 
-ReactDOM.render(<h1>▓▒</h1>, document.getElementById('root'))
+ReactDOM.render(<Timeline />, document.getElementById('root'))
 
