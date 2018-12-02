@@ -5,6 +5,7 @@
 }
 
 .series {
+  transform: translateY(50px);
   fill: none;
   stroke: green;
 }
