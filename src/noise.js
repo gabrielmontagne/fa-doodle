@@ -7,7 +7,7 @@ import { range } from 'd3-array'
 const seed = () => 0.3
 const simplex = new Simplex({ random: seed })
 
-const noise$ = Observable.interval(5000)
+const noise$ = Observable.interval(1000)
   .startWith(-1)
   .map(i => range(60 + i * 0.01, 66 + i * 0.01))
   .map(x =>

@@ -15,7 +15,7 @@ const generator = line()
   .x(d => x(d.get('t')))
   .y(d => y(d.get('d')))
 
-const dFormat = format('.2f')
+const dFormat = format('.3f')
 
 export default sizeMe()(function Timeline({ data, size }) {
   const { width } = size
@@ -38,6 +38,12 @@ export default sizeMe()(function Timeline({ data, size }) {
           <span key={i}>{dFormat(d.get('d'))} → </span>
         ))}
       </p>
+      <Motion 
+        defaultStyle={{x: series[0].get('d')}} 
+        style={{x: spring(series[0].get('d'))}}
+      >
+        {value => <h1>{dFormat(value.x)}</h1>}
+      </Motion>
     </React.Fragment>
   )
 })
