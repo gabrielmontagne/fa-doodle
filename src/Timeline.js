@@ -78,7 +78,7 @@ class Timeline extends React.Component {
 export default sizeMe()(Timeline)
 
 function getExtents(data) {
-  const dateExtent = extent(data, d => d.get('t'))
+  const dateExtent = extent(data.slice(1), d => d.get('t'))
   const pointExtent = extent(data, d => d.get('d'))
   return { dateExtent, pointExtent }
 }

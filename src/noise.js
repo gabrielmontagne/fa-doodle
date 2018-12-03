@@ -8,7 +8,7 @@ import { showNoise$ } from './intents'
 
 const seed = () => 0.3
 const simplex = new Simplex({ random: seed })
-const bufferSize = 6
+const bufferSize = 10
 const bump = add(bufferSize)
 const toItem = curry((h, v, i) =>
   Map({ t: new Date(2000 + i, 0, 1), d: simplex.noise(i * h, i * v) })

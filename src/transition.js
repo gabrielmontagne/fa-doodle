@@ -1,11 +1,13 @@
 import { Subject, Observable } from 'rxjs'
 import { interpolate } from 'd3-interpolate'
+import { easeExpInOut } from 'd3-ease'
 
 export default function createTransition$(
   start,
-  duration = 2000,
+  duration = 1000,
   interval = 20,
-  interpolator = interpolate
+  interpolator = interpolate,
+  ease = easeExpInOut
 ) {
   const ticks = duration / interval
   let current = start
@@ -16,6 +18,7 @@ export default function createTransition$(
       .take(ticks)
       .map(t => (t + 1) / ticks)
       .startWith(0)
+      .map(ease)
       .map(i)
       .do(v => (current = v))
   })
