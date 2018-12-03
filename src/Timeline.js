@@ -19,13 +19,26 @@ const generator = line()
 const dFormat = format('.3f')
 
 class Timeline extends React.Component {
+
+  constructor(props) {
+    super(props)
+    this.state = { series: props.data.toArray() }
+  }
+
+  componentDidMount() {
+    console.log('component did mount')
+  }
+
+  componentWillUnmount() {
+    console.log('component will unmount')
+  }
+
   render() {
     const {
       size: { width },
-      data,
     } = this.props
 
-    const series = data.toArray()
+    const series = this.state.series
     const dateExtent = extent(series, d => d.get('t'))
     const pointExtent = extent(series, d => d.get('d'))
 
@@ -39,7 +52,7 @@ class Timeline extends React.Component {
       <React.Fragment>
         <svg className={style.frame} height="500">
           <g className={style.series}>
-            <path d={generator(data.toArray())} />
+            <path d={generator(series)} />
           </g>
 
           <AxisY scale={y} className={style.yAxis} />
