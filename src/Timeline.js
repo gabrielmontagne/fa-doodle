@@ -56,15 +56,15 @@ export default sizeMe()(function Timeline({ data, size }) {
         </g>
 
         <g className={style.yAxis}>
-          <path d='M0,0V400'/> 
+          <path d='M25,0V400'/> 
           {
             y.ticks().map(
               t => 
               <g
                 transform={`translate(0,${y(t)})`}
               >
-                <line className={style.tick} x2="6"/>
-                <text className={style.label} y="9" dx="0.71em">{yFormat(t)}</text>
+                <line className={style.tick} x1="5" x2={width -50}/>
+                <text className={style.label}>{yFormat(t)}</text>
               </g>
             )
           }

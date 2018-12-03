@@ -18,12 +18,13 @@
 .xAxis {
   composes: axis;
   text-anchor: middle;
-  /*transform: translateY(00px); */
+  transform: translateY(10px);
 }
 
 .yAxis {
   composes: axis;
   transform: translate(30px, 50px);
+  text-anchor: end;
 }
 
 .line {

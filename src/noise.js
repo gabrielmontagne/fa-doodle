@@ -14,7 +14,7 @@ const noise$ = Observable.interval(10000)
     x.map((x, i) =>
       Map({
         t: new Date(2010 + i, 0, 1),
-        d: simplex.noise(x, i),
+        d: i == 0? 0 : simplex.noise(x, i),
       })
     )
   )
