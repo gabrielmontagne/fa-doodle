@@ -6,8 +6,8 @@ import { extent } from 'd3-array'
 import { format } from 'd3-format'
 import { line } from 'd3-shape'
 import { scaleLinear } from 'd3-scale'
-
-console.log('Motion, etc', Motion, spring)
+import createTransition$ from './transition'
+import log from 'caballo-vivo/src/log'
 
 const x = scaleLinear()
 const y = scaleLinear().range([400, 0])
@@ -39,8 +39,8 @@ export default sizeMe()(function Timeline({ data, size }) {
           <span key={i}>{dFormat(d.get('d'))} → </span>
         ))}
       </p>
-      <Motion 
-        defaultStyle={{x: series[0].get('d')}} 
+      <Motion
+        defaultStyle={{x: series[0].get('d')}}
         style={{x: spring(series[0].get('d'))}}
       >
         {value => <h1>{dFormat(value.x)}</h1>}
