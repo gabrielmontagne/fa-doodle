@@ -15,8 +15,6 @@ const generator = line()
   .x(d => x(d.get('t')))
   .y(d => y(d.get('d')))
 
-const dFormat = format('.3f')
-
 class Timeline extends React.Component {
   constructor(props) {
     super(props)
@@ -61,11 +59,6 @@ class Timeline extends React.Component {
           <AxisY scale={y} className={style.yAxis} />
           <AxisX scale={x} className={style.xAxis} />
         </svg>
-        <p>
-          {series.map((d, i) => (
-            <span key={i}>{dFormat(d.get('d'))} → </span>
-          ))}
-        </p>
       </React.Fragment>
     )
   }
