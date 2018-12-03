@@ -16,23 +16,15 @@
 }
 
 .xAxis {
-  composes: axis;
-  text-anchor: middle;
-  transform: translateY(10px);
+  transform: translate(0px, 50px);
 }
 
 .yAxis {
-  composes: axis;
-  transform: translate(30px, 50px);
-  text-anchor: end;
+  transform: translate(100px, 50px);
 }
 
 .line {
   stroke: yellow;
-}
-
-.tick {
-  stroke: #A0A;
 }
 
 .label {

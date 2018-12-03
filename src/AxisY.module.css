@@ -1,0 +1,7 @@
+.axis {
+  text-anchor: end;
+}
+
+.tick {
+  stroke: green;
+}

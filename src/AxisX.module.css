@@ -1,0 +1,12 @@
+.axis {
+  text-anchor: middle;
+}
+
+.line {
+  stroke: white;
+}
+
+.tick {
+  stroke: #A0A;
+}
+

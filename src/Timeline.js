@@ -6,6 +6,8 @@ import { extent } from 'd3-array'
 import { format } from 'd3-format'
 import { line } from 'd3-shape'
 import { scaleLinear, scaleTime } from 'd3-scale'
+import AxisX from './AxisX'
+import AxisY from './AxisY'
 import createTransition$ from './transition'
 import log from 'caballo-vivo/src/log'
 
@@ -40,35 +42,10 @@ export default sizeMe()(function Timeline({ data, size }) {
         <g className={style.series}>
           <path d={generator(data.toArray())} />
         </g>
-        <g className={style.xAxis}>
-          <path d={`M0,0H${width}`} className={style.line}/>
-          {
-            x.ticks().map(
-              t =>
-              <g
-                transform={`translate(${x(t)}, 0)`}
-              >
-                <line className={style.tick} y2="6" />
-                <text className={style.label} y="9" dy="0.71em">{xFormat(t)}</text>
-              </g>
-            )
-          }
-        </g>
 
-        <g className={style.yAxis}>
-          <path d='M25,0V400'/> 
-          {
-            y.ticks().map(
-              t => 
-              <g
-                transform={`translate(0,${y(t)})`}
-              >
-                <line className={style.tick} x1="5" x2={width -50}/>
-                <text className={style.label}>{yFormat(t)}</text>
-              </g>
-            )
-          }
-        </g>
+        <AxisY scale={y} className={style.yAxis} />
+        <AxisX scale={x} className={style.xAxis} />
+
       </svg>
       <p>
         {series.map((d, i) => (
