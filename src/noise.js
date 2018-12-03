@@ -7,6 +7,9 @@ import { range } from 'd3-array'
 const seed = () => 0.3
 const simplex = new Simplex({ random: seed })
 
+
+window.simplex = simplex
+
 const noise$ = Observable.interval(3000)
   .startWith(-1)
   .map(x => range(10 + x, 20 + x))
@@ -19,7 +22,7 @@ const noise$ = Observable.interval(3000)
     )
   )
   .map(List)
-  .take(10)
+  .take(3)
   .do(log('Noise'))
   .map(noise => state => state.set('noise', noise))
 

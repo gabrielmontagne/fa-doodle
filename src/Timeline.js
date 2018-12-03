@@ -22,22 +22,23 @@ const dFormat = format('.3f')
 class Timeline extends React.Component {
   constructor(props) {
     super(props)
-    this.state = {}
+    const initialExtents = getExtents(this.props.data)
+    this.state = initialExtents
+    this.tween$ = createTransition$(initialExtents).do(log('Extents tween'))
   }
 
   componentDidMount() {
-    console.log('%ccomponentDidMount', 'color: orange; background: blue; padding: 20px;')
-    this.tween$ = createTransition$(getExtents(this.props.data))
-      .do(log('Extents tween'))
-
     this.subscription = this.tween$.subscribe(extents =>
       this.setState(extents)
     )
   }
 
   componentDidUpdate(prevProps, prevState, snapshot) {
-    console.log('%ccomponentDidUpdate', 'color: purple;')
     if (prevProps.data.equals(this.props.data)) return
+    console.log(
+      '%ccomponentDidUpdate for real -- push new extents!',
+      'background: green; padding: 50px;'
+    )
     this.tween$.next(getExtents(this.props.data))
   }
 
@@ -47,23 +48,26 @@ class Timeline extends React.Component {
   }
 
   render() {
+    console.groupCollapsed('render')
+
     console.log('%crender!', 'color: #AF0;')
     const {
       data,
       size: { width },
     } = this.props
 
-    if (!data) return null
-
     const { dateExtent, pointExtent } = this.state
     const series = data.toArray()
 
-    if (!dateExtent) return null
-    if (!pointExtent) return null
+    if (!data || !dateExtent || !pointExtent) {
+      console.groupEnd()
+      return null
+    }
 
     x.domain(dateExtent).range([0, width])
     y.domain(pointExtent)
 
+    console.groupEnd()
     return (
       <React.Fragment>
         <svg className={style.frame} height="500">
