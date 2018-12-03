@@ -16,11 +16,8 @@ render$.map(toView).subscribe(domSink)
 export default render$
 
 function toView(state) {
-  console.log('toView', state)
-
   if (state.has('error')) return <Error error={state.get('error')} />
   if (!state.has('location')) return <p>λoading</p>
-
   return (
     <React.Fragment>
       <h1>× {state.get('oka')}</h1>

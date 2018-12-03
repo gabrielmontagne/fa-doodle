@@ -33,15 +33,10 @@ class Timeline extends React.Component {
 
   componentDidUpdate(prevProps, prevState, snapshot) {
     if (prevProps.data.equals(this.props.data)) return
-    console.log(
-      '%ccomponentDidUpdate for real -- push new extents!',
-      'background: green; padding: 50px;'
-    )
     this.tween$.next(getExtents(this.props.data))
   }
 
   componentWillUnmount() {
-    console.log('%ccomponentWillUnmount', 'color: red;')
     this.subscription.unsubscribe()
   }
 
@@ -79,7 +74,6 @@ class Timeline extends React.Component {
 export default sizeMe()(Timeline)
 
 function getExtents(data) {
-  console.log('%cgetExtents', 'background: yellow; padding: 5px', data)
   const dateExtent = extent(data.slice(1), d => d.get('t'))
   const pointExtent = extent(data, d => d.get('d'))
   return { dateExtent, pointExtent }
