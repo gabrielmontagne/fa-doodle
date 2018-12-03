@@ -29,7 +29,12 @@ function toView(state) {
           <Route
             path="/curve/:h/:v/:u"
             exact
-            render={() => <Timeline data={state.get('noise')} />}
+            render={() => <Timeline 
+              data={state.get('noise')} 
+              h={state.get('noiseH')}
+              v={state.get('noiseV')}
+              u={state.get('noiseU')}
+            />}
           />
           <Route
             render={() => (

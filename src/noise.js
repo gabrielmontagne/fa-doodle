@@ -34,9 +34,9 @@ const noise$ = showNoise$
       .map(noise => state =>
         state
           .set('noise', noise)
-          .set('noiseH', 1 * h)
-          .set('noiseV', 1 * v)
-          .set('noiseU', 1 * u)
+          .set('noiseH', h)
+          .set('noiseV', v)
+          .set('noiseU', u)
       )
   )
 )

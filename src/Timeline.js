@@ -49,6 +49,7 @@ class Timeline extends React.Component {
     const {
       data,
       size: { width },
+      h, v, u
     } = this.props
     const { dateExtent, pointExtent } = this.state
     x.domain(dateExtent).range([0, width])
@@ -56,7 +57,7 @@ class Timeline extends React.Component {
     const series = data.toArray()
     return (
       <React.Fragment>
-        <h1>ΤΛ</h1>
+        <h1>ΤΛ {h}×{v}×{u}</h1>
         <svg className={style.frame} height="500">
           <g className={style.series}>
             <path d={generator(series)} />
