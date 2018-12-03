@@ -18,13 +18,14 @@ const generator = line()
 const dFormat = format('.3f')
 
 export default sizeMe()(function Timeline({ data, size }) {
+
   const { width } = size
   const series = data.toArray()
   const dateExtent = extent(series, d => d.get('t'))
   const pointExtent = extent(series, d => d.get('d'))
 
-  x.domain(dateExtent).range([0, width])
-  y.domain(pointExtent)
+  x.domain(dateExtent).range([0, width]).nice()
+  y.domain(pointExtent).nice()
 
   return (
     <React.Fragment>
