@@ -1,10 +1,13 @@
 import React from 'react'
+import sizeMe from 'react-sizeme'
 import style from './Timeline.module.css'
+import { Motion, spring } from 'react-motion'
 import { extent } from 'd3-array'
+import { format } from 'd3-format'
 import { line } from 'd3-shape'
 import { scaleLinear } from 'd3-scale'
-import { format } from 'd3-format'
-import sizeMe from 'react-sizeme'
+
+console.log('Motion, etc', Motion, spring)
 
 const x = scaleLinear()
 const y = scaleLinear().range([400, 0])
@@ -26,8 +29,8 @@ export default sizeMe()(function Timeline({ data, size }) {
   return (
     <React.Fragment>
       <svg className={style.frame} height="500">
-        <g>
-          <path className={style.series} d={generator(data.toArray())} />
+        <g className={style.series}>
+          <path d={generator(data.toArray())} />
         </g>
       </svg>
       <p>
