@@ -1,5 +1,6 @@
 .frame {
   background: rgba(255, 0, 0, 0.3);
+  font-family: monospace;
   width: 100%;
 }
 
@@ -9,25 +10,10 @@
   stroke: green;
 }
 
-.axis {
-  fill: none;
-  stroke: red;
-  font-family: monospace;
-}
-
 .xAxis {
   transform: translate(0px, 50px);
 }
 
 .yAxis {
   transform: translate(100px, 50px);
-}
-
-.line {
-  stroke: yellow;
-}
-
-.label {
-  fill: #A00;
-  stroke: none;
 }

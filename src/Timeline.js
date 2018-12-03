@@ -1,7 +1,6 @@
 import React from 'react'
 import sizeMe from 'react-sizeme'
 import style from './Timeline.module.css'
-import { Motion, spring } from 'react-motion'
 import { extent } from 'd3-array'
 import { format } from 'd3-format'
 import { line } from 'd3-shape'
@@ -28,13 +27,8 @@ export default sizeMe()(function Timeline({ data, size }) {
   x.domain(dateExtent)
     .range([0, width])
     .nice()
-  y.domain(pointExtent).nice()
 
-  const xFormat = x.tickFormat()
-  const yFormat = y.tickFormat()
-  window.x = x
-  window.xFormat = xFormat
-  window.y = y
+  y.domain(pointExtent).nice()
 
   return (
     <React.Fragment>
@@ -52,12 +46,6 @@ export default sizeMe()(function Timeline({ data, size }) {
           <span key={i}>{dFormat(d.get('d'))} → </span>
         ))}
       </p>
-      <Motion
-        defaultStyle={{ x: series[0].get('d') }}
-        style={{ x: spring(series[0].get('d')) }}
-      >
-        {value => <h1>{dFormat(value.x)}</h1>}
-      </Motion>
     </React.Fragment>
   )
 })

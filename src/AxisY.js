@@ -7,8 +7,9 @@ export default function AxisY({scale, className}) {
     <path d='M25,0V400'/> 
     {
       scale.ticks().map(
-        t => 
+        (t, i) => 
         <g
+          key={i}
           transform={`translate(0,${scale(t)})`}
         >
           <line className={style.tick} x1="5" x2={scale.range()[1] -50}/>
