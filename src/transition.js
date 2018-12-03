@@ -3,8 +3,8 @@ import { interpolate } from 'd3-interpolate'
 
 export default function createTransition$(
   start,
-  duration = 1000,
-  interval = 250,
+  duration = 300,
+  interval = 20,
   interpolator = interpolate
 ) {
   const ticks = duration / interval

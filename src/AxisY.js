@@ -6,7 +6,7 @@ export default function AxisY({scale, className}) {
   return <g className={`${style.axis} ${className}`}>
     <path d='M25,0V400'/> 
     {
-      scale.ticks().map(
+      scale.ticks(5).map(
         (t, i) => 
         <g
           key={i}
