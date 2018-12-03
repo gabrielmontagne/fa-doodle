@@ -7,18 +7,19 @@ import { range } from 'd3-array'
 const seed = () => 0.3
 const simplex = new Simplex({ random: seed })
 
-const noise$ = Observable.interval(2000)
+const noise$ = Observable.interval(3000)
   .startWith(-1)
-  .map(i => range(10 + i * 0.01, 50 + i * 1.01))
+  .map(x => range(10 + x, 20 + x))
   .map(x =>
     x.map((x, i) =>
       Map({
-        t: new Date(2010 + i, 0, 1),
-        d: simplex.noise(x, i),
+        t: new Date(2000 + x, 0, 1),
+        d: simplex.noise(x * 0.2, i),
       })
     )
   )
   .map(List)
+  .take(10)
   .do(log('Noise'))
   .map(noise => state => state.set('noise', noise))
 

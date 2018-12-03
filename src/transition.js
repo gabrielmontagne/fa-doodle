@@ -3,7 +3,7 @@ import { interpolate } from 'd3-interpolate'
 
 export default function createTransition$(
   start,
-  duration = 300,
+  duration = 2000,
   interval = 20,
   interpolator = interpolate
 ) {
