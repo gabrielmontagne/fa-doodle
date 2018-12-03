@@ -5,7 +5,6 @@ import createTransition$ from './transition'
 import log from 'caballo-vivo/src/log'
 import sizeMe from 'react-sizeme'
 import style from './Timeline.module.css'
-import { equals } from 'ramda'
 import { extent } from 'd3-array'
 import { format } from 'd3-format'
 import { line } from 'd3-shape'
@@ -24,7 +23,7 @@ class Timeline extends React.Component {
     super(props)
     const initialExtents = getExtents(this.props.data)
     this.state = initialExtents
-    this.tween$ = createTransition$(initialExtents).do(log('Extents tween'))
+    this.tween$ = createTransition$(initialExtents)
   }
 
   componentDidMount() {
@@ -48,26 +47,14 @@ class Timeline extends React.Component {
   }
 
   render() {
-    console.groupCollapsed('render')
-
-    console.log('%crender!', 'color: #AF0;')
     const {
       data,
       size: { width },
     } = this.props
-
     const { dateExtent, pointExtent } = this.state
-    const series = data.toArray()
-
-    if (!data || !dateExtent || !pointExtent) {
-      console.groupEnd()
-      return null
-    }
-
     x.domain(dateExtent).range([0, width])
     y.domain(pointExtent)
-
-    console.groupEnd()
+    const series = data.toArray()
     return (
       <React.Fragment>
         <svg className={style.frame} height="500">
@@ -91,9 +78,7 @@ class Timeline extends React.Component {
 export default sizeMe()(Timeline)
 
 function getExtents(data) {
-  console.log('getExtents', data)
   const dateExtent = extent(data, d => d.get('t'))
   const pointExtent = extent(data, d => d.get('d'))
-  console.log('getExtents', data, dateExtent, pointExtent)
   return { dateExtent, pointExtent }
 }
