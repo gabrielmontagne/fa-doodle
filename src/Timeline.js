@@ -18,34 +18,41 @@ const generator = line()
 
 const dFormat = format('.3f')
 
-export default sizeMe()(function Timeline({ data, size }) {
-  const { width } = size
-  const series = data.toArray()
-  const dateExtent = extent(series, d => d.get('t'))
-  const pointExtent = extent(series, d => d.get('d'))
+class Timeline extends React.Component {
+  render() {
+    const {
+      size: { width },
+      data,
+    } = this.props
 
-  x.domain(dateExtent)
-    .range([0, width])
-    .nice()
+    const series = data.toArray()
+    const dateExtent = extent(series, d => d.get('t'))
+    const pointExtent = extent(series, d => d.get('d'))
 
-  y.domain(pointExtent).nice()
+    x.domain(dateExtent)
+      .range([0, width])
+      .nice()
 
-  return (
-    <React.Fragment>
-      <svg className={style.frame} height="500">
-        <g className={style.series}>
-          <path d={generator(data.toArray())} />
-        </g>
+    y.domain(pointExtent).nice()
 
-        <AxisY scale={y} className={style.yAxis} />
-        <AxisX scale={x} className={style.xAxis} />
+    return (
+      <React.Fragment>
+        <svg className={style.frame} height="500">
+          <g className={style.series}>
+            <path d={generator(data.toArray())} />
+          </g>
 
-      </svg>
-      <p>
-        {series.map((d, i) => (
-          <span key={i}>{dFormat(d.get('d'))} → </span>
-        ))}
-      </p>
-    </React.Fragment>
-  )
-})
+          <AxisY scale={y} className={style.yAxis} />
+          <AxisX scale={x} className={style.xAxis} />
+        </svg>
+        <p>
+          {series.map((d, i) => (
+            <span key={i}>{dFormat(d.get('d'))} → </span>
+          ))}
+        </p>
+      </React.Fragment>
+    )
+  }
+}
+
+export default sizeMe()(Timeline)
