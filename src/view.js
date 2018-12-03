@@ -39,7 +39,7 @@ function toView(state) {
             render={() => (
               <React.Fragment>
                 <h2>▓</h2>
-                <Link to="/curve/0.2/0.1/0.5">start</Link>
+                <Link to="/curve/0.2/0.1/0.5">start 0.2, 0.1, 0.5</Link>
               </React.Fragment>
             )}
           />

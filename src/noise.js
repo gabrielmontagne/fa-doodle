@@ -17,9 +17,7 @@ const toItem = curry((h, v, i) =>
 
 window.showNoise$ = showNoise$
 
-const noise$ = showNoise$
-  .map(parseParams)
-  .switchMap(({ h, v, u }) =>
+const noise$ = showNoise$.map(parseParams).switchMap(({ h, v, u }) =>
   Observable.concat(
     createNavigateTo$(`/curve/${h}/${v}/${u}`),
     Observable.interval(1000)
@@ -31,13 +29,7 @@ const noise$ = showNoise$
       }, List(range(bufferSize).map(toItem(h, v))))
       .do(log('Noise'))
       .take(5)
-      .map(noise => state =>
-        state
-          .set('noise', noise)
-          .set('noiseH', h)
-          .set('noiseV', v)
-          .set('noiseU', u)
-      )
+      .map(noise => state => state.set('noise', noise))
   )
 )
 
