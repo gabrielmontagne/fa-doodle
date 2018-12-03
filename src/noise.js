@@ -3,6 +3,7 @@ import log from 'caballo-vivo/src/log'
 import { Map, List } from 'immutable'
 import { Observable } from 'rxjs'
 import { add, curry } from 'ramda'
+import { createNavigateTo$ } from 'caballo-vivo/src/location'
 import { range } from 'd3-array'
 import { showNoise$ } from './intents'
 
@@ -15,18 +16,20 @@ const toItem = curry((h, v, i) =>
 )
 
 const noise$ = showNoise$
-  .switchMap(({ h, v }) =>
-    Observable.interval(1000)
-      .startWith(-1)
-      .map(bump)
-      .scan((acc, next) => {
-        console.log('scan', acc, next)
-        return acc.slice(1).push(toItem(h, v)(next))
-      }, List(range(bufferSize).map(toItem(h, v))))
-      .do(log('Tic'))
-      .take(30)
+  .switchMap(({ h, v, u }) =>
+    Observable.concat(
+      createNavigateTo$(`/curve/${h}/${v}/${u}`),
+      Observable.interval(1000)
+        .startWith(-1)
+        .map(bump)
+        .scan((acc, next) => {
+          console.log('scan', acc, next)
+          return acc.slice(1).push(toItem(h, v)(next))
+        }, List(range(bufferSize).map(toItem(h, v))))
+        .do(log('Noise'))
+        .take(5)
+        .map(noise => state => state.set('noise', noise))
+    )
   )
-  .do(log('Noise'))
-  .map(noise => state => state.set('noise', noise))
 
 export default noise$

@@ -2,7 +2,6 @@ import AxisX from './AxisX'
 import AxisY from './AxisY'
 import React from 'react'
 import createTransition$ from './transition'
-import log from 'caballo-vivo/src/log'
 import sizeMe from 'react-sizeme'
 import style from './Timeline.module.css'
 import { extent } from 'd3-array'
@@ -57,6 +56,7 @@ class Timeline extends React.Component {
     const series = data.toArray()
     return (
       <React.Fragment>
+        <h1>ΤΛ</h1>
         <svg className={style.frame} height="500">
           <g className={style.series}>
             <path d={generator(series)} />
@@ -78,6 +78,7 @@ class Timeline extends React.Component {
 export default sizeMe()(Timeline)
 
 function getExtents(data) {
+  console.log('%cgetExtents', 'background: yellow; padding: 5px', data)
   const dateExtent = extent(data.slice(1), d => d.get('t'))
   const pointExtent = extent(data, d => d.get('d'))
   return { dateExtent, pointExtent }
