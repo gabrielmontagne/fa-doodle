@@ -9,23 +9,32 @@
   stroke: green;
 }
 
-.xAxis {
+.axis {
   fill: none;
-  stroke: blue;
-  text-anchor: middle;
-  transform: translateY(350px);
+  stroke: red;
+  font-family: monospace;
 }
 
-.xLine {
+.xAxis {
+  composes: axis;
+  text-anchor: middle;
+  /*transform: translateY(00px); */
+}
+
+.yAxis {
+  composes: axis;
+  transform: translate(30px, 50px);
+}
+
+.line {
   stroke: yellow;
 }
 
 .tick {
-  stroke: purple;
+  stroke: #A0A;
 }
 
 .label {
-  fill: black;
+  fill: #A00;
   stroke: none;
-  font-family: monospace;
 }
