@@ -1,11 +1,31 @@
 .frame {
   background: rgba(255, 0, 0, 0.3);
   width: 100%;
-  
 }
 
 .series {
   transform: translateY(50px);
   fill: none;
   stroke: green;
+}
+
+.xAxis {
+  fill: none;
+  stroke: blue;
+  text-anchor: middle;
+  transform: translateY(350px);
+}
+
+.xLine {
+  stroke: yellow;
+}
+
+.tick {
+  stroke: purple;
+}
+
+.label {
+  fill: black;
+  stroke: none;
+  font-family: monospace;
 }
