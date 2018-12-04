@@ -1,0 +1,19 @@
+.nav {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
+@media (max-width: 800px) {
+  .nav {
+    flex-direction: column;
+  }
+}
+
+.link {
+  color: blue;
+}
+
+.active {
+  color: green;
+}

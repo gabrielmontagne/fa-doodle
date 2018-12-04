@@ -1,4 +1,5 @@
 import Error from './Error'
+import Nav from './Nav'
 import React from 'react'
 import Timeline from './Timeline'
 import log from 'caballo-vivo/src/log'
@@ -20,8 +21,10 @@ function toView(state) {
   if (!state.has('location')) return <p>λoading</p>
   return (
     <React.Fragment>
-      <h1>× {state.get('oka')}</h1>
+      <h1>×</h1>
       <Router history={history}>
+        <div>
+        <Nav favCurves={state.get('favCurves')}/>
         <Switch location={state.get('location').toObject()}>
           <Route
             path="/curve/:h/:v/:u"
@@ -41,6 +44,7 @@ function toView(state) {
             )}
           />
         </Switch>
+        </div>
       </Router>
     </React.Fragment>
   )

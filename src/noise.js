@@ -4,13 +4,13 @@ import { Map, List } from 'immutable'
 import { Observable } from 'rxjs'
 import { add, curry, map } from 'ramda'
 import { createNavigateTo$ } from 'caballo-vivo/src/location'
+import { format } from 'd3-format'
 import { range } from 'd3-array'
 import { showNoise$ } from './intents'
-
 const seed = () => 0.3
 const simplex = new Simplex({ random: seed })
-const bufferSize = 10
-const series = 3
+const bufferSize = 7
+const series = 4
 const bump = add(bufferSize)
 const toItem = curry((h, v, u, i) =>
   Map({
@@ -18,6 +18,7 @@ const toItem = curry((h, v, u, i) =>
     d: simplex.noise3d(i * h, i * v, i * u),
   })
 )
+const coordFromat = format('.1f')
 
 const noise$ = showNoise$
   .map(coords => map(toFloat, coords))
@@ -38,9 +39,8 @@ const noise$ = showNoise$
           )
         )
         .do(log('Noise'))
-        .take(20)
         .map(noise => state => state.set('noise', noise)),
-      createNavigateTo$(`/curve/${h}/${v}/${u}`)
+      createNavigateTo$(`/curve/${coordFromat(h)}/${coordFromat(v)}/${coordFromat(u)}`)
     )
   )
 
