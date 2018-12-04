@@ -9,8 +9,8 @@ import { showNoise$ } from './intents'
 
 const seed = () => 0.3
 const simplex = new Simplex({ random: seed })
-const bufferSize = 7
-const series = 2
+const bufferSize = 10
+const series = 3
 const bump = add(bufferSize)
 const toItem = curry((h, v, u, i) =>
   Map({
@@ -30,9 +30,9 @@ const noise$ = showNoise$
           series.map((acc, i) =>
             acc.slice(1).push(toItem(h, v, u * i)(next))
           )
-        , List(range(series).map(i => List(range(bufferSize).map(toItem(h, v, u * i))))))
+        , List(range(series).map(i => List(range(bufferSize - 1).map(toItem(h, v, u * i))))))
         .do(log('Noise'))
-        .take(2)
+        .take(20)
         .map(noise => state => state.set('noise', noise)),
       createNavigateTo$(`/curve/${h}/${v}/${u}`)
     )

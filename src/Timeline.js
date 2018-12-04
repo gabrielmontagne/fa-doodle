@@ -6,13 +6,14 @@ import sizeMe from 'react-sizeme'
 import style from './Timeline.module.css'
 import { List } from 'immutable'
 import { extent } from 'd3-array'
-import { line } from 'd3-shape'
+import { line, curveCardinal as curve } from 'd3-shape'
 import { scaleLinear, scaleOrdinal, scaleTime } from 'd3-scale'
 import { schemeSet1 as colors } from 'd3-scale-chromatic'
 
 const x = scaleTime()
 const y = scaleLinear().range([400, 0])
 const generator = line()
+  .curve(curve.tension(0.3))
   .x(d => x(d.get('t')))
   .y(d => y(d.get('d')))
 const color = scaleOrdinal().range(colors)
@@ -59,13 +60,10 @@ class Timeline extends React.Component {
         </h1>
         <svg className={style.frame} height="500">
           <g className={style.series}>
-            {
-            data.map(
-              (s, i) => <path key={i} stroke={color(i)} d={generator(s.toArray())} />
-            )
-            }
+            {data.map((s, i) => (
+              <path key={i} stroke={color(i)} d={generator(s.toArray())} />
+            ))}
           </g>
-
           <AxisY scale={y} className={style.yAxis} />
           <AxisX scale={x} className={style.xAxis} />
         </svg>
@@ -77,7 +75,7 @@ class Timeline extends React.Component {
 export default sizeMe()(Timeline)
 
 function getExtents(data) {
-  const dateExtent = extent(data.first().slice(1), d => d.get('t'))
+  const dateExtent = extent(data.first().slice(2, -1), d => d.get('t'))
   const pointExtent = extent(
     data
       .reduce((acc, n) => n.reduce((a, d) => a.push(d.get('d')), acc), List())
