@@ -11,6 +11,5 @@ body {
 }
 
 #root {
-  background: pink;
   flex-basis: 80%;
 }

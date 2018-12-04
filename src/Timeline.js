@@ -8,7 +8,7 @@ import { List } from 'immutable'
 import { extent } from 'd3-array'
 import { line } from 'd3-shape'
 import { scaleLinear, scaleOrdinal, scaleTime } from 'd3-scale'
-import { schemeAccent as colors } from 'd3-scale-chromatic'
+import { schemeSet1 as colors } from 'd3-scale-chromatic'
 
 const x = scaleTime()
 const y = scaleLinear().range([400, 0])
