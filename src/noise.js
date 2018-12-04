@@ -26,11 +26,17 @@ const noise$ = showNoise$
       Observable.interval(1000)
         .startWith(-1)
         .map(bump)
-        .scan((series, next) => 
-          series.map((acc, i) =>
-            acc.slice(1).push(toItem(h, v, u * i)(next))
+        .scan(
+          (series, next) =>
+            series.map((acc, i) =>
+              acc.slice(1).push(toItem(h, v, u * i)(next))
+            ),
+          List(
+            range(series).map(i =>
+              List(range(bufferSize - 1).map(toItem(h, v, u * i)))
+            )
           )
-        , List(range(series).map(i => List(range(bufferSize - 1).map(toItem(h, v, u * i))))))
+        )
         .do(log('Noise'))
         .take(20)
         .map(noise => state => state.set('noise', noise)),
