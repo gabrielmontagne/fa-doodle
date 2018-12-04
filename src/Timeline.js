@@ -4,8 +4,8 @@ import React from 'react'
 import createTransition$ from './transition'
 import sizeMe from 'react-sizeme'
 import style from './Timeline.module.css'
+import { List } from 'immutable'
 import { extent } from 'd3-array'
-import { format } from 'd3-format'
 import { line } from 'd3-shape'
 import { scaleLinear, scaleTime } from 'd3-scale'
 
@@ -42,18 +42,26 @@ class Timeline extends React.Component {
     const {
       data,
       size: { width },
-      h, v, u
+      h,
+      v,
+      u,
     } = this.props
     const { dateExtent, pointExtent } = this.state
     x.domain(dateExtent).range([0, width])
     y.domain(pointExtent)
-    const series = data.toArray()
+
     return (
       <React.Fragment>
-        <h1>ΤΛ {h}×{v}×{u}</h1>
+        <h1>
+          ΤΛ {h}×{v}×{u}
+        </h1>
         <svg className={style.frame} height="500">
           <g className={style.series}>
-            <path d={generator(series)} />
+            {
+            data.map(
+              (s, i) => <path key={i} d={generator(s.toArray())} />
+            )
+            }
           </g>
 
           <AxisY scale={y} className={style.yAxis} />
@@ -67,7 +75,11 @@ class Timeline extends React.Component {
 export default sizeMe()(Timeline)
 
 function getExtents(data) {
-  const dateExtent = extent(data.slice(1), d => d.get('t'))
-  const pointExtent = extent(data, d => d.get('d'))
+  const dateExtent = extent(data.first().slice(1), d => d.get('t'))
+  const pointExtent = extent(
+    data
+      .reduce((acc, n) => n.reduce((a, d) => a.push(d.get('d')), acc), List())
+      .toArray()
+  )
   return { dateExtent, pointExtent }
 }

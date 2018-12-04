@@ -9,29 +9,39 @@ import { showNoise$ } from './intents'
 
 const seed = () => 0.3
 const simplex = new Simplex({ random: seed })
-const bufferSize = 10
+const bufferSize = 5
+const series = 2
 const bump = add(bufferSize)
-const toItem = curry((h, v, i) =>
-  Map({ t: new Date(2000 + i, 0, 1), d: simplex.noise(i * h, i * v) })
+const toItem = curry((h, v, u, i) =>
+  Map({ t: new Date(2000 + i, 0, 1), d: simplex.noise3d(i * h, i * v, i * u) })
 )
 
+window.simplex = simplex
 window.showNoise$ = showNoise$
 
 const noise$ = showNoise$
   .map(coords => map(toFloat, coords))
   .switchMap(({ h, v, u }) =>
-    Observable.concat(
-      createNavigateTo$(`/curve/${h}/${v}/${u}`),
+    Observable.merge(
       Observable.interval(1000)
         .startWith(-1)
         .map(bump)
         .scan(
-          (acc, next) => acc.slice(1).push(toItem(h, v)(next)),
-          List(range(bufferSize).map(toItem(h, v)))
+          (series, next) => { 
+            console.log('series', series, next)
+            return series.map(
+              acc =>
+              acc.slice(1).push(toItem(h, v, u)(next))
+            )
+          },
+          List(range(series).map(
+            i => List(range(bufferSize).map(toItem(h, v, u)))
+          ))
         )
         .do(log('Noise'))
-        .take(5)
-        .map(noise => state => state.set('noise', noise))
+        .take(3)
+        .map(noise => state => state.set('noise', noise)),
+      createNavigateTo$(`/curve/${h}/${v}/${u}`)
     )
   )
 
