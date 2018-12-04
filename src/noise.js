@@ -19,9 +19,6 @@ const toItem = curry((h, v, u, i) =>
   })
 )
 
-window.simplex = simplex
-window.showNoise$ = showNoise$
-
 const noise$ = showNoise$
   .map(coords => map(toFloat, coords))
   .switchMap(({ h, v, u }) =>
@@ -35,6 +32,7 @@ const noise$ = showNoise$
           )
         , List(range(series).map(i => List(range(bufferSize).map(toItem(h, v, u * i))))))
         .do(log('Noise'))
+        .take(2)
         .map(noise => state => state.set('noise', noise)),
       createNavigateTo$(`/curve/${h}/${v}/${u}`)
     )

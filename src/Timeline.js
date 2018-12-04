@@ -7,13 +7,15 @@ import style from './Timeline.module.css'
 import { List } from 'immutable'
 import { extent } from 'd3-array'
 import { line } from 'd3-shape'
-import { scaleLinear, scaleTime } from 'd3-scale'
+import { scaleLinear, scaleOrdinal, scaleTime } from 'd3-scale'
+import { schemeAccent as colors } from 'd3-scale-chromatic'
 
 const x = scaleTime()
 const y = scaleLinear().range([400, 0])
 const generator = line()
   .x(d => x(d.get('t')))
   .y(d => y(d.get('d')))
+const color = scaleOrdinal().range(colors)
 
 class Timeline extends React.Component {
   constructor(props) {
@@ -59,7 +61,7 @@ class Timeline extends React.Component {
           <g className={style.series}>
             {
             data.map(
-              (s, i) => <path key={i} d={generator(s.toArray())} />
+              (s, i) => <path key={i} stroke={color(i)} d={generator(s.toArray())} />
             )
             }
           </g>
