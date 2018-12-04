@@ -6,13 +6,13 @@
 .series {
   transform: translateY(50px);
   fill: none;
-  stroke: green;
+  stroke: black;
 }
 
 .xAxis {
-  transform: translate(0px, 50px);
+  transform: translate(0px, 1px);
 }
 
 .yAxis {
-  transform: translate(100px, 50px);
+  transform: translate(50px, 50px);
 }

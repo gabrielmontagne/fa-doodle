@@ -38,8 +38,8 @@ function toView(state) {
           <Route
             render={() => (
               <React.Fragment>
-                <h2>▓</h2>
-                <Link to="/curve/0.2/0.1/0.5">start 0.2, 0.1, 0.5</Link>
+                <h1>▓</h1>
+                <p>Click on one of the other curves above</p>
               </React.Fragment>
             )}
           />

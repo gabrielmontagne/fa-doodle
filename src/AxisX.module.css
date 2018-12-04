@@ -3,10 +3,10 @@
 }
 
 .line {
-  stroke: white;
+  stroke: rgba(0, 0, 0, 0.1);
 }
 
 .tick {
-  stroke: #A0A;
+  stroke: rgba(0, 0, 0, 0.07);
 }
 
