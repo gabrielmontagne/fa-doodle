@@ -1,5 +1,6 @@
-import { Observable } from 'rxjs'
 import log from 'caballo-vivo/src/log'
+import { List } from 'immutable'
+import { Observable } from 'rxjs'
 import { format } from 'd3-format'
 import { range } from 'd3-array'
 
@@ -10,6 +11,8 @@ const favCurves$ = Observable.from(range(5 * coords))
   .bufferCount(3)
   .map(([h,v,u]) => `/curve/${h}/${v}/${u}`)
   .bufferCount(5)
+  .map(l => l.concat('/mesh', '/'))
+  .map(List)
   .do(log('Favourite curves'))
   .map(curves => state => state.set('favCurves', curves))
 
