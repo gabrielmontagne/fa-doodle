@@ -35,10 +35,15 @@ class Model extends React.PureComponent {
 
   render() {
     const { scene, camera, renderer, mesh } = this.state
+    const { rx, ry, rz } = this.props
+
     if (mesh) mesh.rotation.z = Math.random() * 360
     if (renderer) renderer.render(scene, camera)
 
     console.log( '%c RENDER props', 'color: firebrick', scene, camera, renderer)
+    console.log(
+      this.props
+    )
 
     return <canvas className={style.canvas} ref={this.canvas} />
   }
