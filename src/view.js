@@ -40,12 +40,7 @@ function toView(state) {
               exact
               path="/mesh/:mesh/:rx/:ry/:rz" 
               render={({match:{ params: {mesh, rx, ry, rz}}}) => 
-              <Model 
-              mesh={mesh}
-              rx={rx}
-              ry={ry}
-              rz={rz}
-            />} />
+              <Model mesh={mesh} rx={rx} ry={ry} rz={rz} />} />
             <Route
               render={() => (
                 <React.Fragment>

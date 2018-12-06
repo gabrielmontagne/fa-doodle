@@ -1,14 +1,11 @@
 import React from 'react'
-import {
-  BoxGeometry,
-  Mesh,
-  MeshBasicMaterial,
-  PerspectiveCamera,
-  Scene,
-  WebGLRenderer,
-} from 'three'
-import style from './Model.module.css'
 import sizeMe from 'react-sizeme'
+import style from './Model.module.css'
+import toFloat from './to-float'
+import { BoxGeometry, Mesh, MeshBasicMaterial, PerspectiveCamera, Scene, WebGLRenderer, } from 'three'
+import { pick, compose } from 'ramda'
+
+const angles = compose(toFloat, pick(['rx', 'ry', 'rz']))
 
 class Model extends React.PureComponent {
   constructor(props) {
@@ -19,7 +16,7 @@ class Model extends React.PureComponent {
 
   componentDidMount() {
     const { width } = this.props.size
-    const renderer = new WebGLRenderer({ canvas: this.canvas.current })
+    const renderer = new WebGLRenderer({ alpha: true, antialias: true, canvas: this.canvas.current })
     renderer.setSize(width, 500)
     console.log('%c componentDidMount', 'color: darkred', renderer)
     this.setState({ renderer })
@@ -35,16 +32,9 @@ class Model extends React.PureComponent {
 
   render() {
     const { scene, camera, renderer, mesh } = this.state
-    const { rx, ry, rz } = this.props
-
-    if (mesh) mesh.rotation.z = Math.random() * 360
+    const { rx, ry, rz } = angles(this.props)
+    if (mesh) Object.assign(mesh.rotation, {x:rx, y:ry, z:rz})
     if (renderer) renderer.render(scene, camera)
-
-    console.log( '%c RENDER props', 'color: firebrick', scene, camera, renderer)
-    console.log(
-      this.props
-    )
-
     return <canvas className={style.canvas} ref={this.canvas} />
   }
 }
@@ -57,10 +47,7 @@ function createInitialState(width, height) {
   const geometry = new BoxGeometry(1, 1, 1)
   const material = new MeshBasicMaterial({ color: 0xff0000 })
   const mesh = new Mesh(geometry, material)
-
   mesh.position.z = -5
-  mesh.rotation.x = 5
   scene.add(mesh)
-
   return { scene, mesh, camera }
 }
