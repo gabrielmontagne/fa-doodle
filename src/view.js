@@ -3,7 +3,7 @@ import Nav from './Nav'
 import React from 'react'
 import Timeline from './Timeline'
 import log from 'caballo-vivo/src/log'
-import Mesh from './Mesh'
+import Model from './Model'
 import { Router, Switch, Route } from 'react-router-dom'
 import { Subject } from 'rxjs'
 import { history } from 'caballo-vivo/src/location'
@@ -36,7 +36,7 @@ function toView(state) {
                 },
               }) => <Timeline data={state.get('noise')} h={h} v={v} u={u} />}
             />
-            <Route path="/mesh" render={() => <Mesh />} />
+            <Route path="/mesh" render={() => <Model />} />
             <Route
               render={() => (
                 <React.Fragment>
