@@ -9,14 +9,23 @@ const favCurves$ = Observable.from(range(5 * coords))
   .map(Math.random)
   .map(format('.1f'))
   .bufferCount(3)
-  .map(([h,v,u]) => `/curve/${h}/${v}/${u}`)
+  .map(([h, v, u]) => `/curve/${h}/${v}/${u}`)
   .bufferCount(5)
-  .map(l => l.concat(
-    '/', 
-    '/mesh/aa/45/90/0',
-    '/mesh/aa/12/-20/30',
-    '/mesh/aa/0/0/0'
-  ))
+  .map(l =>
+    l.concat(
+      '/',
+      '/mesh/mercure/45/90/0',
+      '/mesh/mercure/12/-20/30',
+      '/mesh/mercure/0/0/0',
+      '/mesh/cluny/45/90/0',
+      '/mesh/cluny/12/-20/30',
+      '/mesh/cluny/0/0/0',
+      '/mesh/louis-xiv/45/90/0',
+      '/mesh/louis-xiv/12/-20/30',
+      '/mesh/louis-xiv/0/0/0',
+      '/mesh/XXXs-xiv/0/0/0'
+    )
+  )
   .map(List)
   .do(log('Favourite curves'))
   .map(curves => state => state.set('favCurves', curves))

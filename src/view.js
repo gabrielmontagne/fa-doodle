@@ -4,6 +4,7 @@ import React from 'react'
 import Timeline from './Timeline'
 import log from 'caballo-vivo/src/log'
 import Model from './Model'
+import Loading from './Loading'
 import { Router, Switch, Route } from 'react-router-dom'
 import { Subject } from 'rxjs'
 import { history } from 'caballo-vivo/src/location'
@@ -19,6 +20,7 @@ export default render$
 
 function toView(state) {
   if (state.has('error')) return <Error error={state.get('error')} />
+  if (state.has('loading')) return <Loading loading={state.get('loading')} />
   if (!state.has('location')) return <p>λoading</p>
   return (
     <React.Fragment>
@@ -40,7 +42,7 @@ function toView(state) {
               exact
               path="/mesh/:mesh/:rx/:ry/:rz" 
               render={({match:{ params: {mesh, rx, ry, rz}}}) => 
-              <Model mesh={mesh} rx={rx} ry={ry} rz={rz} />} />
+              <Model model={state.getIn(['models', mesh])} rx={rx} ry={ry} rz={rz} />} />
             <Route
               render={() => (
                 <React.Fragment>

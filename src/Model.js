@@ -14,12 +14,6 @@ import {
 } from 'three'
 import { pick, pipe, equals } from 'ramda'
 
-import GLTFLoader from 'three-gltf-loader'
-
-console.log('GLTFLoader', GLTFLoader)
-
-
-
 const propsToRadians = pipe(
   pick(['rx', 'ry', 'rz']),
   toFloat,
@@ -52,6 +46,17 @@ class Model extends React.Component {
   componentDidUpdate(prevProps, prevState) {
     const rotation = propsToRadians(this.props)
     const prevRotation = propsToRadians(prevProps)
+    const { model } = this.props
+    const { model:prevModel } = prevProps
+    console.log('%component did update model', 'background: powderblue', prevModel, model)
+
+    if (model) {
+      console.log('%cmodel??', 'background: orange', model)
+
+    }
+
+
+
     if (equals(rotation, prevRotation)) return
     this.tween$.next(rotation)
   }
