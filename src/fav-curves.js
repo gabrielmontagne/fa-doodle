@@ -13,8 +13,9 @@ const favCurves$ = Observable.from(range(5 * coords))
   .bufferCount(5)
   .map(l => l.concat(
     '/', 
-    '/mesh/aa/5/22/0',
-    '/mesh/aa/15/2/30'
+    '/mesh/aa/45/90/0',
+    '/mesh/aa/12/-20/30',
+    '/mesh/aa/0/0/0'
   ))
   .map(List)
   .do(log('Favourite curves'))

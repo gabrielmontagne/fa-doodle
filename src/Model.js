@@ -2,6 +2,7 @@ import React from 'react'
 import createTransition$ from './transition'
 import sizeMe from 'react-sizeme'
 import style from './Model.module.css'
+import { map, pip, multiply } from 'ramda'
 import log from 'caballo-vivo/src/log'
 import toFloat from './to-float'
 import {
@@ -14,20 +15,20 @@ import {
 } from 'three'
 import { pick, pipe, difference, equals } from 'ramda'
 
-const angles = pipe(
+const propsToRadians = pipe(
   pick(['rx', 'ry', 'rz']),
   toFloat,
+  map(pipe(multiply(Math.PI / 180))),
   ({ rx, ry, rz }) => ({ x: rx, y: ry, z: rz })
 )
 
 class Model extends React.Component {
   constructor(props) {
     super(props)
-    const rotation = angles(props)
+    const rotation = propsToRadians(props)
     this.canvas = React.createRef()
     this.state = initializeState(this.props.size.width, 500, rotation)
     this.tween$ = createTransition$(rotation)
-      .do(r => console.log('ρ', r))
   }
 
   componentDidMount() {
@@ -44,8 +45,8 @@ class Model extends React.Component {
   }
 
   componentDidUpdate(prevProps, prevState) {
-    const rotation = angles(this.props)
-    const prevRotation = angles(prevProps)
+    const rotation = propsToRadians(this.props)
+    const prevRotation = propsToRadians(prevProps)
     if (equals(rotation, prevRotation)) return
     this.tween$.next(rotation)
   }
