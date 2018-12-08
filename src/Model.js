@@ -25,8 +25,13 @@ class Model extends React.Component {
   constructor(props) {
     super(props)
     const rotation = propsToRadians(props)
+    const {
+      size: { width },
+      model,
+    } = this.props
+
     this.canvas = React.createRef()
-    this.state = initializeState(this.props.size.width, 500, rotation)
+    this.state = initializeState(width, 500, rotation, model)
     this.tween$ = createTransition$(rotation)
   }
 
@@ -44,20 +49,18 @@ class Model extends React.Component {
   }
 
   componentDidUpdate(prevProps, prevState) {
-    const rotation = propsToRadians(this.props)
-    const prevRotation = propsToRadians(prevProps)
     const { model } = this.props
     const { model: prevModel } = prevProps
 
     if (model && !model.equals(prevModel)) {
-      console.log(
-        '%cmodel hot changed',
-        'background: orange',
-        prevModel,
-        model
-      )
+      const { scene } = this.state
+      const modelScene = model.get('scene')
+      scene.remove(prevModel.get('scene'))
+      scene.add(model.get('scene'))
     }
 
+    const rotation = propsToRadians(this.props)
+    const prevRotation = propsToRadians(prevProps)
     if (equals(rotation, prevRotation)) return
     this.tween$.next(rotation)
   }
@@ -68,7 +71,9 @@ class Model extends React.Component {
 
   render() {
     const { scene, camera, mesh, rotation } = this.state
-    if (mesh) Object.assign(mesh.rotation, rotation)
+    const { model } = this.props
+    const modelScene = model && model.get('scene')
+    if (modelScene) Object.assign(modelScene.rotation, rotation)
     if (this.renderer) this.renderer.render(scene, camera)
     return <canvas className={style.canvas} ref={this.canvas} />
   }
@@ -76,13 +81,11 @@ class Model extends React.Component {
 
 export default sizeMe()(Model)
 
-function initializeState(width, height, rotation) {
+function initializeState(width, height, rotation, model) {
   const scene = new Scene()
   const camera = new PerspectiveCamera(75, width / height)
-  const geometry = new BoxGeometry(1, 1, 1)
-  const material = new MeshBasicMaterial({ color: 0xff0000 })
-  const mesh = new Mesh(geometry, material)
-  mesh.position.z = -2
-  scene.add(mesh)
-  return { scene, mesh, camera, rotation }
+  const modelScene = model.get('scene')
+  if (model) scene.add(modelScene)
+  modelScene.position.z = -2
+  return { scene, camera, rotation }
 }
