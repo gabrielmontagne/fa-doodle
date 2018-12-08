@@ -2,8 +2,7 @@ import React from 'react'
 import createTransition$ from './transition'
 import sizeMe from 'react-sizeme'
 import style from './Model.module.css'
-import { map, pip, multiply } from 'ramda'
-import log from 'caballo-vivo/src/log'
+import { map, multiply } from 'ramda'
 import toFloat from './to-float'
 import {
   BoxGeometry,
@@ -13,7 +12,7 @@ import {
   Scene,
   WebGLRenderer,
 } from 'three'
-import { pick, pipe, difference, equals } from 'ramda'
+import { pick, pipe, equals } from 'ramda'
 
 const propsToRadians = pipe(
   pick(['rx', 'ry', 'rz']),
