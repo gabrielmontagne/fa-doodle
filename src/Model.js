@@ -14,6 +14,12 @@ import {
 } from 'three'
 import { pick, pipe, equals } from 'ramda'
 
+import GLTFLoader from 'three-gltf-loader'
+
+console.log('GLTFLoader', GLTFLoader)
+
+
+
 const propsToRadians = pipe(
   pick(['rx', 'ry', 'rz']),
   toFloat,
