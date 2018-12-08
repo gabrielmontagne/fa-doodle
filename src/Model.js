@@ -47,15 +47,16 @@ class Model extends React.Component {
     const rotation = propsToRadians(this.props)
     const prevRotation = propsToRadians(prevProps)
     const { model } = this.props
-    const { model:prevModel } = prevProps
-    console.log('%component did update model', 'background: powderblue', prevModel, model)
+    const { model: prevModel } = prevProps
 
-    if (model) {
-      console.log('%cmodel??', 'background: orange', model)
-
+    if (model && !model.equals(prevModel)) {
+      console.log(
+        '%cmodel hot changed',
+        'background: orange',
+        prevModel,
+        model
+      )
     }
-
-
 
     if (equals(rotation, prevRotation)) return
     this.tween$.next(rotation)

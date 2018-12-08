@@ -9,40 +9,28 @@ import { showModel$ } from './intents'
 const formatProgress = format('.1f')
 let modelCache = Map()
 
-const model$ = showModel$.switchMap(
-  ({ mesh, rx, ry, rz }) =>
-  {
-  console.log('model cache', modelCache)
-  return modelCache.has(mesh) ? 
-  Observable.concat(
-  Observable
-    .of(modelCache.get(mesh))
-    .do(log('Restore cached model'))
-    .map(model => state => state.setIn(['models', mesh], model)),
-      createNavigateTo$(`/mesh/${mesh}/${rx}/${ry}/${rz}`)
-  )
-    
-    :
-
-  Observable.concat(
-    Observable.of(state => state.set('loading', `model ${mesh}`)),
-    createNavigateTo$(`/mesh/${mesh}/${rx}/${ry}/${rz}`),
-    createLoader$(`${process.env.PUBLIC_URL}/models/${mesh}/scene.gltf`)
-      .do(({ result }) => { 
-          console.log('cache result', result)
-          modelCache = modelCache.set(mesh, result)
-        }
+const model$ = showModel$.switchMap(({ mesh, rx, ry, rz }) => {
+  return modelCache.has(mesh)
+    ? Observable.concat(
+        Observable.of(modelCache.get(mesh))
+          .do(log('Restore cached model'))
+          .map(model => state => state.setIn(['models', mesh], model)),
+        createNavigateTo$(`/mesh/${mesh}/${rx}/${ry}/${rz}`)
       )
-      .do(log('Model loader'))
-      .map(({ progress, result }) => state =>
-        state
-          .set('loading', `model ${mesh} ${formatProgress(progress)}`)
-          .setIn(['models', mesh], result)
-      ),
-    Observable.of(state => state.delete('loading'))
-  )
-  }
-)
+    : Observable.concat(
+        Observable.of(state => state.set('loading', `model ${mesh}`)),
+        createNavigateTo$(`/mesh/${mesh}/${rx}/${ry}/${rz}`),
+        createLoader$(`${process.env.PUBLIC_URL}/models/${mesh}/scene.gltf`)
+          .do(({ result }) => (modelCache = modelCache.set(mesh, result)))
+          .do(log('Model loader'))
+          .map(({ progress, result }) => state =>
+            state
+              .set('loading', `model ${mesh} ${formatProgress(progress)}`)
+              .setIn(['models', mesh], result)
+          ),
+        Observable.of(state => state.delete('loading'))
+      )
+})
 
 export default model$
 
@@ -58,7 +46,7 @@ function createLoader$(url) {
       xhr => {
         const { loaded, total } = xhr
         if (!total) return
-        o.next({ progress: loaded / (total + 10e-4) })
+        o.next({ progress: loaded / total })
       },
       error => o.error(error)
     )
