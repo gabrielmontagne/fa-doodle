@@ -96,7 +96,5 @@ function prepModel(model) {
   console.log('%cbounds', 'background: powderblue', bounds, size, maxSide, targetSize, bounds, scale)
   Object.assign(model.scale, { x: scale, y: scale, z: scale})
   model.position.z = -20
-
-  model.position.y = -10
   return model
 }
