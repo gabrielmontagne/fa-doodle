@@ -5,6 +5,7 @@ import style from './Model.module.css'
 import { map, multiply } from 'ramda'
 import toFloat from './to-float'
 import {
+  AmbientLight,
   PerspectiveCamera,
   Scene,
   WebGLRenderer,
@@ -94,6 +95,7 @@ function initializeState(width, height, rotation, model) {
   camera.position.y = 10
   const modelScene = prepModel(model.get('scene'))
   if (model) scene.add(modelScene)
+  scene.add(new AmbientLight(0xFFFFFF, 0.5))
   return { scene, camera, rotation }
 }
 
