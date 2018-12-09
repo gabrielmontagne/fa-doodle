@@ -74,7 +74,14 @@ class Model extends React.Component {
     const modelScene = model && model.get('scene')
     if (modelScene) Object.assign(modelScene.rotation, rotation)
     if (this.renderer) this.renderer.render(scene, camera)
-    return <canvas className={style.canvas} ref={this.canvas} />
+    return <div className={style.container}>
+      <canvas className={style.canvas} ref={this.canvas} />
+      <svg className={style.annotations}>
+        <circle cx="50%" cy="50%" r="50"
+          fill="none" stroke="rgba(255, 0, 0, 0.5)"
+        />
+      </svg>
+    </div>
   }
 }
 

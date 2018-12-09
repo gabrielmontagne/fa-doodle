@@ -1,6 +1,19 @@
 .canvas {
-  border: 10px dotted pink;
-  width: 100%;
+  border: 3px dotted purple;
   height: 500px;
   background: rgba(255, 0, 0, 0.1);
+  position: relative;
+}
+
+.container {
+  border: 3px dashed red;
+}
+
+.annotations {
+  position: absolute;
+  border: 2px dashed blue;
+  width: 100%;
+  height: 500px;
+  left: 0;
+  top: 0;
 }
