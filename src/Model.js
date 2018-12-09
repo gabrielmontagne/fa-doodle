@@ -5,15 +5,15 @@ import style from './Model.module.css'
 import { map, multiply } from 'ramda'
 import toFloat from './to-float'
 import {
-  BoxGeometry,
-  Mesh,
-  MeshBasicMaterial,
   PerspectiveCamera,
   Scene,
   WebGLRenderer,
+  Vector3,
+  Box3
 } from 'three'
-import { pick, pipe, equals } from 'ramda'
+import { pick, pipe, equals, values, max, reduce } from 'ramda'
 
+const targetSize = 20
 const propsToRadians = pipe(
   pick(['rx', 'ry', 'rz']),
   toFloat,
@@ -54,7 +54,6 @@ class Model extends React.Component {
 
     if (model && !model.equals(prevModel)) {
       const { scene } = this.state
-      const modelScene = model.get('scene')
       scene.remove(prevModel.get('scene'))
       scene.add(model.get('scene'))
     }
@@ -70,7 +69,7 @@ class Model extends React.Component {
   }
 
   render() {
-    const { scene, camera, mesh, rotation } = this.state
+    const { scene, camera, rotation } = this.state
     const { model } = this.props
     const modelScene = model && model.get('scene')
     if (modelScene) Object.assign(modelScene.rotation, rotation)
@@ -84,8 +83,20 @@ export default sizeMe()(Model)
 function initializeState(width, height, rotation, model) {
   const scene = new Scene()
   const camera = new PerspectiveCamera(75, width / height)
-  const modelScene = model.get('scene')
+  const modelScene = prepModel(model.get('scene'))
   if (model) scene.add(modelScene)
-  modelScene.position.z = -2
   return { scene, camera, rotation }
+}
+
+function prepModel(model) {
+  const bounds = new Box3().setFromObject(model)
+  const size = bounds.getSize(new Vector3())
+  const maxSide = reduce(max, [], values(size))
+  const scale = targetSize / maxSide
+  console.log('%cbounds', 'background: powderblue', bounds, size, maxSide, targetSize, bounds, scale)
+  Object.assign(model.scale, { x: scale, y: scale, z: scale})
+  model.position.z = -20
+
+  model.position.y = -10
+  return model
 }
