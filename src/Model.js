@@ -83,6 +83,8 @@ export default sizeMe()(Model)
 function initializeState(width, height, rotation, model) {
   const scene = new Scene()
   const camera = new PerspectiveCamera(75, width / height)
+  camera.position.z = 20
+  camera.position.y = 10
   const modelScene = prepModel(model.get('scene'))
   if (model) scene.add(modelScene)
   return { scene, camera, rotation }
@@ -95,6 +97,5 @@ function prepModel(model) {
   const scale = targetSize / maxSide
   console.log('%cbounds', 'background: powderblue', bounds, size, maxSide, targetSize, bounds, scale)
   Object.assign(model.scale, { x: scale, y: scale, z: scale})
-  model.position.z = -20
   return model
 }
