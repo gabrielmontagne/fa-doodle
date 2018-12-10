@@ -19,8 +19,6 @@ export default function Annotation({ size: { width, height }, camera, author, ti
     .map(curry(project)(width, height, camera))
     .filter(({ x, y }) => isFinite(x) && isFinite(y))
 
-  console.log('%casset', 'background: yellow', title, author)
-
   return (
     <svg className={style.annotation}>
       {coords.map(({ x, y, t }, i) => (
