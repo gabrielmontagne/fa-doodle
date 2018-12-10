@@ -24,6 +24,7 @@ const favCurves$ = Observable.from(range(5 * coords))
       '/mesh/louis-xiv/12/-20/30',
       '/mesh/louis-xiv/0/0/0',
       '/mesh/aaa/0/0/0',
+      '/mesh/aaa/12/-30/45',
       '/mesh/aaa/0/90/0',
       '/mesh/XXXs-xiv/0/0/0'
     )
