@@ -3,7 +3,7 @@ import createTransition$ from './transition'
 import sizeMe from 'react-sizeme'
 import style from './Model.module.css'
 import Annotation from './Annotation'
-import { map, multiply } from 'ramda'
+import { map } from 'ramda'
 import toFloat from './to-float'
 import {
   AmbientLight,
@@ -11,17 +11,20 @@ import {
   Scene,
   WebGLRenderer,
   Vector3,
-  Box3
+  Object3D,
+  Box3,
+  Math
 } from 'three'
 import { pick, pipe, equals, values, max, reduce } from 'ramda'
 
 const targetSize = 20
 const height = 500
+const { DEG2RAD:d2g } = Math
 
 const propsToRadians = pipe(
   pick(['rx', 'ry', 'rz']),
   toFloat,
-  map(pipe(multiply(Math.PI / 180))),
+  map(n => n * d2g),
   ({ rx, ry, rz }) => ({ x: rx, y: ry, z: rz })
 )
 
@@ -73,10 +76,12 @@ class Model extends React.Component {
   }
 
   render() {
-    const { scene, camera, rotation } = this.state
+    const { scene, camera, rotation, cameraPivot } = this.state
     const { model, size } = this.props
     const modelScene = model && model.get('scene')
-    if (modelScene) Object.assign(modelScene.rotation, rotation)
+
+    if (cameraPivot) Object.assign(cameraPivot.rotation, rotation)
+
     if (this.renderer) this.renderer.render(scene, camera)
     return <div className={style.container}>
       <canvas className={style.canvas} ref={this.canvas} />
@@ -89,13 +94,19 @@ export default sizeMe()(Model)
 
 function initializeState(width, height, rotation, model) {
   const scene = new Scene()
+  const cameraPivot = new Object3D()
   const camera = new PerspectiveCamera(75, width / height)
+
   camera.position.z = 20
   camera.position.y = 10
+  cameraPivot.add(camera)
+  scene.add(cameraPivot)
+
+
   const modelScene = prepModel(model.get('scene'))
   if (model) scene.add(modelScene)
   scene.add(new AmbientLight(0xFFFFFF, 0.5))
-  return { scene, camera, rotation }
+  return { scene, camera, rotation, cameraPivot }
 }
 
 function prepModel(model) {

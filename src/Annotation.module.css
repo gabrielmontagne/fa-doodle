@@ -1,8 +1,19 @@
 .annotation {
   position: absolute;
-  border: 2px dashed blue;
+  border: 2px dashed green;
   width: 100%;
   height: 500px;
   left: 0;
   top: 0;
+}
+
+.label {
+  stroke: none;
+  fill: rgba(255, 0, 0, 0.5);
+  font-size: 10px;
+}
+
+.marker {
+  fill: none;
+  stroke: rgba(255, 0, 0, 0.3);
 }
