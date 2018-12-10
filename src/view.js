@@ -24,7 +24,7 @@ function toView(state) {
   if (!state.has('location')) return <p>λoading</p>
   return (
     <React.Fragment>
-      <h1>×</h1>
+      <h1>× FA doodle ×</h1>
       <Router history={history}>
         <div>
           <Nav favCurves={state.get('favCurves')} />
