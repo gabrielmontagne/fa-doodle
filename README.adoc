@@ -1,1 +1,5 @@
 = FA application doodle
+
+Deployed to https://fa.tibas.london
+
+NOTE: This repository uses the https://git-lfs.github.com/[Git Large File Storage] extension to store the large 3D binary assets; please make sure you have it properly installed before you clone.

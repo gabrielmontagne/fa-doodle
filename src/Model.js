@@ -16,16 +16,16 @@ import {
   Box3,
   Math,
 } from 'three'
-import { pick, pipe, equals, values, max, reduce } from 'ramda'
+import { pick, pipe, equals } from 'ramda'
 
 const height = 500
 const cameraZ = 40
-const { DEG2RAD: d2g } = Math
+const { DEG2RAD: d2r } = Math
 
 const propsToRadians = pipe(
   pick(['rx', 'ry', 'rz']),
   toFloat,
-  map(n => n * d2g),
+  map(n => n * d2r),
   ({ rx, ry, rz }) => ({ x: rx, y: ry, z: rz })
 )
 
@@ -125,10 +125,8 @@ function initializeState(width, height, rotation, model) {
 
 function prepModel(model) {
   const bounds = new Box3().setFromObject(model)
-  const size = bounds.getSize(new Vector3())
-  const maxSide = reduce(max, [], values(size))
   const center = new Vector3()
-    .add(bounds.min, bounds.max)
+    .addVectors(bounds.min, bounds.max)
     .divideScalar(2)
     .multiplyScalar(-1)
   Object.assign(model.position, center)

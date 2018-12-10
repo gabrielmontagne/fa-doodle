@@ -3,7 +3,6 @@ import style from './Annotation.module.css'
 import { Vector3 } from 'three'
 import { curry } from 'ramda'
 import { format } from 'd3-format'
-import { range } from 'd3-array'
 import { scaleLinear } from 'd3-scale'
 
 const angleFormat = format('+05.2f')
