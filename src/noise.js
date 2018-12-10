@@ -41,7 +41,6 @@ const noise$ = showNoise$
           )
         )
         .do(log('Noise'))
-        .take(5)
         .map(noise => state => state.set('noise', noise)),
 
       createNavigateTo$(`/curve/${coordFromat(h)}/${coordFromat(v)}/${coordFromat(u)}`)
