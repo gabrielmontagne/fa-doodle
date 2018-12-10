@@ -87,7 +87,7 @@ class Model extends React.Component {
     if (renderer) renderer.render(scene, camera)
 
     return <React.Fragment>
-    <section className={style.container}>
+    <section>
       <canvas className={style.canvas} ref={this.canvas} />
       <Annotation 
         size={{...size, height}} camera={camera} 

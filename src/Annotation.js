@@ -28,10 +28,10 @@ export default function Annotation({ size: { width, height }, camera, author, ti
         </g>
       ))}
 
-      <text transform="translate(20, 40)" className={style.title}>{title}</text>
-      <text transform="translate(20, 60)" className={style.author}>{author}</text>
+      <text transform="translate(0, 40)" className={style.title}>{title}</text>
+      <text transform="translate(0, 60)" className={style.author}>{author}</text>
       <text 
-      transform="translate(20, 80)"
+      transform="translate(0, 80)"
       className={style.rotation}>
         {`rot x:${angleFormat(x)}° y:${angleFormat(y)}° z:${angleFormat(z)}°`}
       </text>

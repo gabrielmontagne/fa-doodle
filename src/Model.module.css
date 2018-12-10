@@ -3,8 +3,3 @@
   width: 100%;
   position: relative;
 }
-
-.container {
-  outline: 1px dashed rgba(0, 0, 0, 0.1);
-  margin-top: 10px;
-}
