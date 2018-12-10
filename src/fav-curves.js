@@ -14,21 +14,13 @@ const favCurves$ = Observable.from(range(5 * coords))
   .map(l =>
     l.concat(
       '/',
-      '/mesh/mercure/45/90/0',
-      '/mesh/mercure/12/-20/30',
-      '/mesh/mercure/0/0/0',
-      '/mesh/cluny/45/90/0',
-      '/mesh/cluny/12/-20/30',
-      '/mesh/cluny/0/0/0',
-      '/mesh/louis-xiv/45/90/0',
-      '/mesh/louis-xiv/12/-20/30',
-      '/mesh/louis-xiv/0/0/0',
-      '/mesh/aaa/0/0/0',
-      '/mesh/aaa/12/-30/45',
-      '/mesh/aaa/0/90/0',
       '/mesh/table/-35/10/0',
       '/mesh/table/0/0/0',
+      '/mesh/louis-xiv/0/0/0',
+      '/mesh/louis-xiv/0/35/0',
+      '/mesh/mercure/0/0/0',
       '/mesh/house/-40/0/0',
+      '/mesh/house/-50/20/0',
       '/mesh/house/0/0/0',
     )
   )

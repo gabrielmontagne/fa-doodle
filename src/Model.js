@@ -19,7 +19,7 @@ import {
 import { pick, pipe, equals, values, max, reduce } from 'ramda'
 
 const height = 500
-const cameraZ = 30
+const cameraZ = 40
 const { DEG2RAD: d2g } = Math
 
 const propsToRadians = pipe(

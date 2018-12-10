@@ -4,18 +4,21 @@ import { Vector3 } from 'three'
 import { curry } from 'ramda'
 import { format } from 'd3-format'
 import { range } from 'd3-array'
+import { scaleLinear } from 'd3-scale'
 
-const tickFormat = format('1i')
 const angleFormat = format('+05.2f')
+const ranges = {
+  x: scaleLinear().domain([-40, 40]),
+  y: scaleLinear().domain([-10, 10]),
+  z: scaleLinear().domain([-30, 30])
+}
+
+window.scaleLinear = scaleLinear
+window.ranges = ranges
 
 export default function Annotation({ size: { width, height }, camera, author, title, rotation: {x, y, z} }) {
-  const ranges = {
-    x: range(-15, 16, 5),
-    y: range(-1, 1, 1),
-    z: range(-3, 4, 1),
-  }
 
-  const coords = toCoords(ranges)
+  const coords = toCoords({x:ranges.x.ticks(3), y:ranges.y.ticks(10), z:ranges.z.ticks(4)})
     .map(curry(project)(width, height, camera))
     .filter(({ x, y }) => isFinite(x) && isFinite(y))
 
@@ -49,7 +52,7 @@ function toCoords({ x, y, z }) {
             (acc, z) =>
               acc.concat(
                 Object.assign(new Vector3(x, y, z), {
-                  t: `${tickFormat(x)},${tickFormat(y)},${tickFormat(z)}`,
+                  t: `${ranges.x.tickFormat()(x)},${ranges.y.tickFormat()(y)},${ranges.z.tickFormat()(z)}`,
                 })
               ),
             acc
