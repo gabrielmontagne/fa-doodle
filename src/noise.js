@@ -22,29 +22,29 @@ const toItem = curry((h, v, u, i) =>
 )
 const coordFromat = format('.1f')
 
-const noise$ = showNoise$
-  .map(toFloat)
-  .switchMap(({ h, v, u }) =>
-    Observable.merge(
-      Observable.interval(1200)
-        .startWith(-1)
-        .map(bump)
-        .scan(
-          (series, next) =>
-            series.map((acc, i) =>
-              acc.slice(1).push(toItem(h, v, u * i)(next))
-            ),
-          List(
-            range(series).map(i =>
-              List(range(bufferSize - 1).map(toItem(h, v, u * i)))
-            )
+const noise$ = showNoise$.map(toFloat).switchMap(({ h, v, u }) =>
+  Observable.merge(
+    Observable.interval(1200)
+      .startWith(-1)
+      .map(bump)
+      .scan(
+        (series, next) =>
+          series.map((acc, i) =>
+            acc.slice(1).push(toItem(h, v, u * i)(next))
+          ),
+        List(
+          range(series).map(i =>
+            List(range(bufferSize - 1).map(toItem(h, v, u * i)))
           )
         )
-        .do(log('Noise'))
-        .map(noise => state => state.set('noise', noise)),
+      )
+      .do(log('Noise'))
+      .map(noise => state => state.set('noise', noise)),
 
-      createNavigateTo$(`/curve/${coordFromat(h)}/${coordFromat(v)}/${coordFromat(u)}`)
+    createNavigateTo$(
+      `/curve/${coordFromat(h)}/${coordFromat(v)}/${coordFromat(u)}`
     )
   )
+)
 
 export default noise$

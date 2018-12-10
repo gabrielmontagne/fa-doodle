@@ -21,7 +21,7 @@ export default render$
 function toView(state) {
   if (state.has('error')) return <Error error={state.get('error')} />
   if (state.has('loading')) return <Loading loading={state.get('loading')} />
-  if (!state.has('location')) return <Loading /> 
+  if (!state.has('location')) return <Loading />
   return (
     <React.Fragment>
       <h1>× FA doodle ×</h1>
@@ -55,14 +55,7 @@ function toView(state) {
                 />
               )}
             />
-            <Route
-              render={() => (
-                <React.Fragment>
-                  <h1>▓</h1>
-                  <p>Click on one of the other curves above</p>
-                </React.Fragment>
-              )}
-            />
+            <Route render={() => <h1>█▓▓▒</h1>} />
           </Switch>
         </div>
       </Router>

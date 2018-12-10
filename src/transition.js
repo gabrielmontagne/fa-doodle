@@ -16,8 +16,7 @@ export default function createTransition$(
   let current = start
   const to$ = new Subject()
   const out$ = to$.switchMap(to => {
-    const { skipTransition } = to
-    return skipTransition
+    return to.skipTransition
       ? Observable.of(minusSkip(to)).do(v => current = v)
       : Observable.interval(interval)
           .take(ticks)
