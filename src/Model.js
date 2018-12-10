@@ -20,12 +20,12 @@ import { pick, pipe, equals } from 'ramda'
 
 const height = 500
 const cameraZ = 40
-const { DEG2RAD: d2g } = Math
+const { DEG2RAD: d2r } = Math
 
 const propsToRadians = pipe(
   pick(['rx', 'ry', 'rz']),
   toFloat,
-  map(n => n * d2g),
+  map(n => n * d2r),
   ({ rx, ry, rz }) => ({ x: rx, y: ry, z: rz })
 )
 
