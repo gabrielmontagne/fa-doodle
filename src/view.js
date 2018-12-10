@@ -21,7 +21,7 @@ export default render$
 function toView(state) {
   if (state.has('error')) return <Error error={state.get('error')} />
   if (state.has('loading')) return <Loading loading={state.get('loading')} />
-  if (!state.has('location')) return <p>λoading</p>
+  if (!state.has('location')) return <Loading /> 
   return (
     <React.Fragment>
       <h1>× FA doodle ×</h1>
