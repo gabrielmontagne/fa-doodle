@@ -2,6 +2,7 @@ import React from 'react'
 import createTransition$ from './transition'
 import sizeMe from 'react-sizeme'
 import style from './Model.module.css'
+import Annotation from './Annotation'
 import { map, multiply } from 'ramda'
 import toFloat from './to-float'
 import {
@@ -77,11 +78,7 @@ class Model extends React.Component {
     if (this.renderer) this.renderer.render(scene, camera)
     return <div className={style.container}>
       <canvas className={style.canvas} ref={this.canvas} />
-      <svg className={style.annotations}>
-        <circle cx="50%" cy="50%" r="50"
-          fill="none" stroke="rgba(255, 0, 0, 0.5)"
-        />
-      </svg>
+      <Annotation />
     </div>
   }
 }

@@ -1,0 +1,8 @@
+.annotation {
+  position: absolute;
+  border: 2px dashed blue;
+  width: 100%;
+  height: 500px;
+  left: 0;
+  top: 0;
+}
