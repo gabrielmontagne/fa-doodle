@@ -16,6 +16,8 @@ import {
 import { pick, pipe, equals, values, max, reduce } from 'ramda'
 
 const targetSize = 20
+const height = 500
+
 const propsToRadians = pipe(
   pick(['rx', 'ry', 'rz']),
   toFloat,
@@ -33,7 +35,7 @@ class Model extends React.Component {
     } = this.props
 
     this.canvas = React.createRef()
-    this.state = initializeState(width, 500, rotation, model)
+    this.state = initializeState(width, height, rotation, model)
     this.tween$ = createTransition$(rotation)
   }
 
@@ -44,7 +46,7 @@ class Model extends React.Component {
       antialias: true,
       canvas: this.canvas.current,
     })
-    this.renderer.setSize(width, 500)
+    this.renderer.setSize(width, height)
     this.subscription = this.tween$.subscribe(rotation =>
       this.setState({ rotation })
     )
@@ -72,13 +74,13 @@ class Model extends React.Component {
 
   render() {
     const { scene, camera, rotation } = this.state
-    const { model } = this.props
+    const { model, size } = this.props
     const modelScene = model && model.get('scene')
     if (modelScene) Object.assign(modelScene.rotation, rotation)
     if (this.renderer) this.renderer.render(scene, camera)
     return <div className={style.container}>
       <canvas className={style.canvas} ref={this.canvas} />
-      <Annotation />
+      <Annotation size={{...size, height}} camera={camera} />
     </div>
   }
 }
