@@ -45,13 +45,13 @@ class Model extends React.Component {
 
   componentDidMount() {
     const { width } = this.props.size
-    this.renderer = new WebGLRenderer({
+    const renderer = new WebGLRenderer({
       alpha: true,
       antialias: true,
       canvas: this.canvas.current,
     })
-    this.renderer.setSize(width, height)
-
+    renderer.setSize(width, height)
+    this.setState({ renderer })
     this.subscription = this.tween$.subscribe(rotation =>
       this.setState({ rotation })
     )
@@ -67,8 +67,6 @@ class Model extends React.Component {
       scene.add(model.get('scene'))
     }
 
-    console.log(`%cwidth ${width}, prevWidth ${prevWidth}`, 'background: powderblue')
-
     const rotation = propsToRadians(this.props)
     const prevRotation = propsToRadians(prevProps)
     if (equals(rotation, prevRotation)) return
@@ -80,13 +78,13 @@ class Model extends React.Component {
   }
 
   render() {
-    const { scene, camera, rotation, cameraPivot } = this.state
+    const { renderer, scene, camera, rotation, cameraPivot } = this.state
     const { model, size, rx, ry, rz, mesh } = this.props
     const title = model.getIn(['asset', 'extras', 'title'], 'Unititled')
     const author = model.getIn(['asset', 'extras', 'author'], 'unknown author')
 
     if (cameraPivot) Object.assign(cameraPivot.rotation, rotation)
-    if (this.renderer) this.renderer.render(scene, camera)
+    if (renderer) renderer.render(scene, camera)
 
     return <React.Fragment>
     <section className={style.container}>
@@ -125,7 +123,6 @@ function prepModel(model) {
   const size = bounds.getSize(new Vector3())
   const maxSide = reduce(max, [], values(size))
   const scale = targetSize / maxSide
-  console.log('%cbounds', 'background: powderblue', bounds, size, maxSide, targetSize, bounds, scale)
   Object.assign(model.scale, { x: scale, y: scale, z: scale})
   return model
 }
