@@ -10,15 +10,21 @@ const angleFormat = format('+05.2f')
 const ranges = {
   x: scaleLinear().domain([-40, 40]),
   y: scaleLinear().domain([-10, 10]),
-  z: scaleLinear().domain([-30, 30])
+  z: scaleLinear().domain([-30, 30]),
 }
 
-window.scaleLinear = scaleLinear
-window.ranges = ranges
-
-export default function Annotation({ size: { width, height }, camera, author, title, rotation: {x, y, z} }) {
-
-  const coords = toCoords({x:ranges.x.ticks(3), y:ranges.y.ticks(10), z:ranges.z.ticks(4)})
+export default function Annotation({
+  size: { width, height },
+  camera,
+  author,
+  title,
+  rotation: { x, y, z },
+}) {
+  const coords = toCoords({
+    x: ranges.x.ticks(3),
+    y: ranges.y.ticks(10),
+    z: ranges.z.ticks(4),
+  })
     .map(curry(project)(width, height, camera))
     .filter(({ x, y }) => isFinite(x) && isFinite(y))
 
@@ -31,14 +37,15 @@ export default function Annotation({ size: { width, height }, camera, author, ti
         </g>
       ))}
 
-      <text transform="translate(0, 40)" className={style.title}>{title}</text>
-      <text transform="translate(0, 60)" className={style.author}>{author}</text>
-      <text 
-      transform="translate(0, 80)"
-      className={style.rotation}>
+      <text transform="translate(0, 40)" className={style.title}>
+        {title}
+      </text>
+      <text transform="translate(0, 60)" className={style.author}>
+        {author}
+      </text>
+      <text transform="translate(0, 80)" className={style.rotation}>
         {`rot x:${angleFormat(x)}° y:${angleFormat(y)}° z:${angleFormat(z)}°`}
       </text>
-
     </svg>
   )
 }
@@ -52,7 +59,9 @@ function toCoords({ x, y, z }) {
             (acc, z) =>
               acc.concat(
                 Object.assign(new Vector3(x, y, z), {
-                  t: `${ranges.x.tickFormat()(x)},${ranges.y.tickFormat()(y)},${ranges.z.tickFormat()(z)}`,
+                  t: `${ranges.x.tickFormat()(x)},${ranges.y.tickFormat()(
+                    y
+                  )},${ranges.z.tickFormat()(z)}`,
                 })
               ),
             acc
