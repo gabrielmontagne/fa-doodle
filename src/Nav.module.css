@@ -4,6 +4,8 @@
   justify-content: space-between;
   flex-wrap: wrap;
   flex-direction: column;
+  justify-content: start;
+  margin-bottom: 20px;
 }
 
 
@@ -11,17 +13,18 @@
   .nav {
     flex-direction: row;
   }
-
-  .link {
-    background: yellow;
-    margin: 2px;
-  }
 }
 
 .link {
+  background: rgba(0, 0, 0, 0.05);
   color: blue;
+  margin: 4px;
+  position: relative;
+  text-underline-position: under;
+  top: -4px;
 }
 
 .active {
-  color: green;
+  color: black;
+  background: crimson;
 }

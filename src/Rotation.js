@@ -12,7 +12,7 @@ export default function Rotation(props) {
       >
         Reset rotation
       </button>
-      {'xyz'.split('').map(k => (
+      {'yxz'.split('').map(k => (
         <p key={k}>
           <label>{k}</label>
           <input
