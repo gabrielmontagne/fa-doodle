@@ -38,11 +38,23 @@ function toView(state) {
                 },
               }) => <Timeline data={state.get('noise')} h={h} v={v} u={u} />}
             />
-            <Route 
+            <Route
               exact
-              path="/mesh/:mesh/:rx/:ry/:rz" 
-              render={({match:{ params: {mesh, rx, ry, rz}}}) => 
-              <Model model={state.getIn(['models', mesh])} rx={rx} ry={ry} rz={rz} />} />
+              path="/mesh/:mesh/:rx/:ry/:rz"
+              render={({
+                match: {
+                  params: { mesh, rx, ry, rz },
+                },
+              }) => (
+                <Model
+                  model={state.getIn(['models', mesh])}
+                  mesh={mesh}
+                  rx={rx}
+                  ry={ry}
+                  rz={rz}
+                />
+              )}
+            />
             <Route
               render={() => (
                 <React.Fragment>

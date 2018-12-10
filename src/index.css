@@ -5,6 +5,10 @@
   font-style: normal;
 }
 
+h1, h2, h3, h4, h5 {
+  font-weight: normal;
+}
+
 body {
   margin: 0;
   padding: 0;
@@ -19,6 +23,6 @@ body {
 
 #root {
   flex-basis: 80%;
-  background: #F0F0F0;
+  background: rgba(0, 0, 0, 0.05);
   padding: 20px;
 }

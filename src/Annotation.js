@@ -6,8 +6,9 @@ import { format } from 'd3-format'
 import { range } from 'd3-array'
 
 const tickFormat = format('1i')
+const angleFormat = format('+05.2f')
 
-export default function Annotation({ size: { width, height }, camera }) {
+export default function Annotation({ size: { width, height }, camera, author, title, rotation: {x, y, z} }) {
   const ranges = {
     x: range(-15, 16, 5),
     y: range(-1, 1, 1),
@@ -18,6 +19,8 @@ export default function Annotation({ size: { width, height }, camera }) {
     .map(curry(project)(width, height, camera))
     .filter(({ x, y }) => isFinite(x) && isFinite(y))
 
+  console.log('%casset', 'background: yellow', title, author)
+
   return (
     <svg className={style.annotation}>
       {coords.map(({ x, y, t }, i) => (
@@ -26,20 +29,15 @@ export default function Annotation({ size: { width, height }, camera }) {
           <text className={style.label}>{t}</text>
         </g>
       ))}
-      <circle
-        cx="50%"
-        cy="50%"
-        r="50"
-        fill="none"
-        stroke="rgba(255, 0, 0, 0.5)"
-      />
-      <circle
-        cx="50%"
-        cy="0"
-        r="40"
-        fill="none"
-        stroke="rgba(255, 127, 0, 0.5)"
-      />
+
+      <text transform="translate(20, 40)" className={style.title}>{title}</text>
+      <text transform="translate(20, 60)" className={style.author}>{author}</text>
+      <text 
+      transform="translate(20, 80)"
+      className={style.rotation}>
+        {`rot x:${angleFormat(x)}° y:${angleFormat(y)}° z:${angleFormat(z)}°`}
+      </text>
+
     </svg>
   )
 }

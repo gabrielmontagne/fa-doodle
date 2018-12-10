@@ -1,10 +1,11 @@
+import Annotation from './Annotation'
 import React from 'react'
+import Rotation from './Rotation'
 import createTransition$ from './transition'
 import sizeMe from 'react-sizeme'
 import style from './Model.module.css'
-import Annotation from './Annotation'
-import { map } from 'ramda'
 import toFloat from './to-float'
+import { map } from 'ramda'
 import {
   AmbientLight,
   PerspectiveCamera,
@@ -50,20 +51,23 @@ class Model extends React.Component {
       canvas: this.canvas.current,
     })
     this.renderer.setSize(width, height)
+
     this.subscription = this.tween$.subscribe(rotation =>
       this.setState({ rotation })
     )
   }
 
   componentDidUpdate(prevProps, prevState) {
-    const { model } = this.props
-    const { model: prevModel } = prevProps
+    const { model, size: {width} } = this.props
+    const { model: prevModel, size: { width:prevWidth} } = prevProps
 
     if (model && !model.equals(prevModel)) {
       const { scene } = this.state
       scene.remove(prevModel.get('scene'))
       scene.add(model.get('scene'))
     }
+
+    console.log(`%cwidth ${width}, prevWidth ${prevWidth}`, 'background: powderblue')
 
     const rotation = propsToRadians(this.props)
     const prevRotation = propsToRadians(prevProps)
@@ -77,16 +81,25 @@ class Model extends React.Component {
 
   render() {
     const { scene, camera, rotation, cameraPivot } = this.state
-    const { model, size } = this.props
-    const modelScene = model && model.get('scene')
+    const { model, size, rx, ry, rz, mesh } = this.props
+    const title = model.getIn(['asset', 'extras', 'title'], 'Unititled')
+    const author = model.getIn(['asset', 'extras', 'author'], 'unknown author')
 
     if (cameraPivot) Object.assign(cameraPivot.rotation, rotation)
-
     if (this.renderer) this.renderer.render(scene, camera)
-    return <div className={style.container}>
+
+    return <React.Fragment>
+    <section className={style.container}>
       <canvas className={style.canvas} ref={this.canvas} />
-      <Annotation size={{...size, height}} camera={camera} />
-    </div>
+      <Annotation 
+        size={{...size, height}} camera={camera} 
+        title={title}
+        author={author}
+        rotation={rotation}
+      />
+    </section>
+    <Rotation  rx={rx} ry={ry} rz={rz} mesh={mesh} />
+    </React.Fragment>
   }
 }
 
@@ -102,9 +115,7 @@ function initializeState(width, height, rotation, model) {
   cameraPivot.add(camera)
   scene.add(cameraPivot)
 
-
-  const modelScene = prepModel(model.get('scene'))
-  if (model) scene.add(modelScene)
+  if (model) scene.add(prepModel(model.get('scene')))
   scene.add(new AmbientLight(0xFFFFFF, 0.5))
   return { scene, camera, rotation, cameraPivot }
 }
