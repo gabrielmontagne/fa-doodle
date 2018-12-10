@@ -18,7 +18,7 @@ const model$ = showModel$.switchMap(({ mesh, rx, ry, rz }) => {
         createNavigateTo$(`/mesh/${mesh}/${rx}/${ry}/${rz}`)
       )
     : Observable.concat(
-        Observable.of(state => state.set('loading', `model ${mesh}, please be patient ⋯`)),
+        Observable.of(state => state.set('loading', `model ${mesh}, please be patient 。`)),
         createNavigateTo$(`/mesh/${mesh}/${rx}/${ry}/${rz}`),
         createLoader$(`${process.env.PUBLIC_URL}/models/${mesh}/scene.gltf`)
           .do(({ result }) => (modelCache = modelCache.set(mesh, result)))

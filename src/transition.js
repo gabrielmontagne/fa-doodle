@@ -1,6 +1,9 @@
 import { Subject, Observable } from 'rxjs'
 import { interpolate } from 'd3-interpolate'
 import { easeExpInOut } from 'd3-ease'
+import { omit } from 'ramda'
+
+const minusSkip = omit(['skipTransition'])
 
 export default function createTransition$(
   start,
@@ -12,15 +15,17 @@ export default function createTransition$(
   const ticks = duration / interval
   let current = start
   const to$ = new Subject()
-  const out$ = to$.switchMap(t => {
-    const i = interpolator(current, t)
-    return Observable.interval(interval)
-      .take(ticks)
-      .map(t => (t + 1) / ticks)
-      .startWith(0)
-      .map(ease)
-      .map(i)
-      .do(v => (current = v))
+  const out$ = to$.switchMap(to => {
+    const { skipTransition } = to
+    return skipTransition
+      ? Observable.of(minusSkip(to)).do(v => current = v)
+      : Observable.interval(interval)
+          .take(ticks)
+          .map(t => (t + 1) / ticks)
+          .startWith(0)
+          .map(ease)
+          .map(interpolator(current, minusSkip(to)))
+          .do(v => (current = v))
   })
   return Subject.create(to$, out$)
 }

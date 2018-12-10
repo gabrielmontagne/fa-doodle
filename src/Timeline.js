@@ -5,6 +5,7 @@ import createTransition$ from './transition'
 import sizeMe from 'react-sizeme'
 import style from './Timeline.module.css'
 import { List } from 'immutable'
+import { equals, props } from 'ramda'
 import { extent } from 'd3-array'
 import { line, curveCardinal as curve } from 'd3-shape'
 import { scaleLinear, scaleOrdinal, scaleTime } from 'd3-scale'
@@ -17,6 +18,7 @@ const generator = line()
   .x(d => x(d.get('t')))
   .y(d => y(d.get('d')))
 const color = scaleOrdinal().range(colors)
+const coords = props('hvu')
 
 class Timeline extends React.Component {
   constructor(props) {
@@ -27,14 +29,14 @@ class Timeline extends React.Component {
   }
 
   componentDidMount() {
-    this.subscription = this.tween$.subscribe(extents =>
-      this.setState(extents)
-    )
+    this.subscription = this.tween$
+    .subscribe(extents => this.setState(extents))
   }
 
   componentDidUpdate(prevProps, prevState, snapshot) {
+    const skipTransition = !equals(coords(prevProps), coords(this.props))
     if (prevProps.data.equals(this.props.data)) return
-    this.tween$.next(getExtents(this.props.data))
+    this.tween$.next({...getExtents(this.props.data), skipTransition})
   }
 
   componentWillUnmount() {

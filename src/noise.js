@@ -16,7 +16,7 @@ const series = 4
 const bump = add(bufferSize)
 const toItem = curry((h, v, u, i) =>
   Map({
-    t: new Date(2000 + i, 0, 1),
+    t: new Date(2020 + i, 0, 1),
     d: simplex.noise3d(i * h, i * v, i * u),
   })
 )
@@ -26,7 +26,7 @@ const noise$ = showNoise$
   .map(toFloat)
   .switchMap(({ h, v, u }) =>
     Observable.merge(
-      Observable.interval(1000)
+      Observable.interval(1200)
         .startWith(-1)
         .map(bump)
         .scan(

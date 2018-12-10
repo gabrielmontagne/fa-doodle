@@ -60,17 +60,19 @@ class Model extends React.Component {
   componentDidUpdate(prevProps, prevState) {
     const { model } = this.props
     const { model: prevModel } = prevProps
+    let skipTransition = false
 
     if (model && !model.equals(prevModel)) {
       const { scene } = this.state
       scene.remove(prevModel.get('scene'))
       scene.add(model.get('scene'))
+      skipTransition = true
     }
 
     const rotation = propsToRadians(this.props)
     const prevRotation = propsToRadians(prevProps)
     if (equals(rotation, prevRotation)) return
-    this.tween$.next(rotation)
+    this.tween$.next({ ...rotation, skipTransition })
   }
 
   componentWillUnmount() {
