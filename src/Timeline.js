@@ -55,9 +55,9 @@ class Timeline extends React.Component {
 
     return (
       <React.Fragment>
-        <h1>
+        <h2>
           ΤΛ {h}×{v}×{u}
-        </h1>
+        </h2>
         <svg className={style.frame} height="500">
           <g className={style.series}>
             {data.map((s, i) => (
