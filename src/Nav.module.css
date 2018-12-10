@@ -16,11 +16,15 @@
 }
 
 .link {
+  background: rgba(0, 0, 0, 0.05);
   color: blue;
   margin: 4px;
-  background: #EEE;
+  position: relative;
+  text-underline-position: under;
+  top: -4px;
 }
 
 .active {
-  color: green;
+  color: black;
+  background: crimson;
 }
