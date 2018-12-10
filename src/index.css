@@ -14,10 +14,11 @@ body {
   display: flex;
   flex-direction: row;
   justify-content: center;
-
   font-family: 'cmu_serifroman';
 }
 
 #root {
   flex-basis: 80%;
+  background: #F0F0F0;
+  padding: 20px;
 }
