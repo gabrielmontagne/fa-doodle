@@ -11,7 +11,9 @@ export default function Annotation({ size: { width, height }, camera }) {
     z: range(-20, 21, 5),
   }
 
-  const coords = toCoords(ranges).map(curry(project)(width, height, camera))
+  const coords = toCoords(ranges)
+    .map(curry(project)(width, height, camera))
+    .filter(({x, y}) => isFinite(x) && isFinite(y))
 
   return (
     <svg className={style.annotation}>
