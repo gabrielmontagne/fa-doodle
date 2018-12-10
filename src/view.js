@@ -3,7 +3,9 @@ import Nav from './Nav'
 import React from 'react'
 import Timeline from './Timeline'
 import log from 'caballo-vivo/src/log'
-import { Router, Link, Switch, Route } from 'react-router-dom'
+import Model from './Model'
+import Loading from './Loading'
+import { Router, Switch, Route } from 'react-router-dom'
 import { Subject } from 'rxjs'
 import { history } from 'caballo-vivo/src/location'
 import { partialRight } from 'ramda'
@@ -18,32 +20,50 @@ export default render$
 
 function toView(state) {
   if (state.has('error')) return <Error error={state.get('error')} />
+  if (state.has('loading')) return <Loading loading={state.get('loading')} />
   if (!state.has('location')) return <p>λoading</p>
   return (
     <React.Fragment>
-      <h1>×</h1>
+      <h1>× FA doodle ×</h1>
       <Router history={history}>
         <div>
-        <Nav favCurves={state.get('favCurves')}/>
-        <Switch location={state.get('location').toObject()}>
-          <Route
-            path="/curve/:h/:v/:u"
-            exact
-            render={({
-              match: {
-                params: { h, v, u },
-              },
-            }) => <Timeline data={state.get('noise')} h={h} v={v} u={u} />}
-          />
-          <Route
-            render={() => (
-              <React.Fragment>
-                <h1>▓</h1>
-                <p>Click on one of the other curves above</p>
-              </React.Fragment>
-            )}
-          />
-        </Switch>
+          <Nav favCurves={state.get('favCurves')} />
+          <Switch location={state.get('location').toObject()}>
+            <Route
+              path="/curve/:h/:v/:u"
+              exact
+              render={({
+                match: {
+                  params: { h, v, u },
+                },
+              }) => <Timeline data={state.get('noise')} h={h} v={v} u={u} />}
+            />
+            <Route
+              exact
+              path="/mesh/:mesh/:rx/:ry/:rz"
+              render={({
+                match: {
+                  params: { mesh, rx, ry, rz },
+                },
+              }) => (
+                <Model
+                  model={state.getIn(['models', mesh])}
+                  mesh={mesh}
+                  rx={rx}
+                  ry={ry}
+                  rz={rz}
+                />
+              )}
+            />
+            <Route
+              render={() => (
+                <React.Fragment>
+                  <h1>▓</h1>
+                  <p>Click on one of the other curves above</p>
+                </React.Fragment>
+              )}
+            />
+          </Switch>
         </div>
       </Router>
     </React.Fragment>

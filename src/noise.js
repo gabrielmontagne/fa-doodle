@@ -1,12 +1,14 @@
 import Simplex from 'perlin-simplex'
 import log from 'caballo-vivo/src/log'
+import toFloat from './to-float'
 import { Map, List } from 'immutable'
 import { Observable } from 'rxjs'
-import { add, curry, map } from 'ramda'
+import { add, curry } from 'ramda'
 import { createNavigateTo$ } from 'caballo-vivo/src/location'
 import { format } from 'd3-format'
 import { range } from 'd3-array'
 import { showNoise$ } from './intents'
+
 const seed = () => 0.3
 const simplex = new Simplex({ random: seed })
 const bufferSize = 7
@@ -21,7 +23,7 @@ const toItem = curry((h, v, u, i) =>
 const coordFromat = format('.1f')
 
 const noise$ = showNoise$
-  .map(coords => map(toFloat, coords))
+  .map(toFloat)
   .switchMap(({ h, v, u }) =>
     Observable.merge(
       Observable.interval(1000)
@@ -40,14 +42,9 @@ const noise$ = showNoise$
         )
         .do(log('Noise'))
         .map(noise => state => state.set('noise', noise)),
+
       createNavigateTo$(`/curve/${coordFromat(h)}/${coordFromat(v)}/${coordFromat(u)}`)
     )
   )
 
 export default noise$
-
-function toFloat(i, k) {
-  const result = parseFloat(i)
-  if (isNaN(result)) throw new Error(`Unable to parse ${i} as number`)
-  return result
-}

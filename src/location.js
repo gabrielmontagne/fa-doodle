@@ -1,9 +1,10 @@
 import log from 'caballo-vivo/src/log'
 import { createLocation$ } from 'caballo-vivo/src/location'
-import { showNoise$ } from './intents'
+import { showNoise$, showModel$ } from './intents'
 
 const pathToIntent = {
-  '/curve/:h/:v/:u': ({ h, v, u }) => showNoise$.next({ h, v, u }),
+  '/curve/:h/:v/:u': (coords) => showNoise$.next(coords),
+  '/mesh/:mesh/:rx/:ry/:rz': (coords) => showModel$.next(coords),
 }
 const location$ = createLocation$(pathToIntent)
   .do(log('location'))
