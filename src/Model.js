@@ -58,8 +58,8 @@ class Model extends React.Component {
   }
 
   componentDidUpdate(prevProps, prevState) {
-    const { model, size: {width} } = this.props
-    const { model: prevModel, size: { width:prevWidth} } = prevProps
+    const { model } = this.props
+    const { model: prevModel } = prevProps
 
     if (model && !model.equals(prevModel)) {
       const { scene } = this.state
