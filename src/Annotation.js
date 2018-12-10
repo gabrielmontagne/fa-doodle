@@ -32,8 +32,8 @@ export default function Annotation({
     <svg className={style.annotation}>
       {coords.map(({ x, y, t }, i) => (
         <g key={i} transform={`translate(${x},${y})`}>
-          <circle key={i} r="2" className={style.marker} />
-          <text className={style.label}>{t}</text>
+          <path className={style.marker} d="M-5,0L0,0M0,-5L0,0" />
+          <text dy="0.2em" dx="0.4em" className={style.label}>{t}</text>
         </g>
       ))}
 
