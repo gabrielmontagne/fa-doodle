@@ -13,14 +13,12 @@
   .nav {
     flex-direction: row;
   }
-
-  .link {
-    margin: 2px;
-  }
 }
 
 .link {
   color: blue;
+  margin: 4px;
+  background: #EEE;
 }
 
 .active {
