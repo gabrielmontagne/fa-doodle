@@ -14,7 +14,7 @@ export default function Nav({ favCurves }) {
         '/curve/0.1/0.8/0.8',
         '/curve/0.3/0.5/0.6',
       ].map(toLink)}
-      — Or perhaps load any of the following meshes,
+      — Or load any of the following meshes,
       {[
         '/mesh/house/0/0/0',
         '/mesh/house/-45/10/15',
@@ -26,6 +26,7 @@ export default function Nav({ favCurves }) {
         '/mesh/mercure/0/0/0',
         '/mesh/mercure/30/-30/10',
       ].map(toLink)}
+      … and use the sliders below to rotate it.
     </nav>
   )
 }
