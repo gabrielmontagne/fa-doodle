@@ -19,7 +19,7 @@ const model$ = showModel$.switchMap(({ mesh, rx, ry, rz }) => {
       )
     : Observable.concat(
         Observable.of(state =>
-          state.set('loading', `model ${mesh}, please be patient 。`)
+          state.set('loading', `model ‘${mesh}’`)
         ),
         createNavigateTo$(`/mesh/${mesh}/${rx}/${ry}/${rz}`),
         createLoader$(`${process.env.PUBLIC_URL}/models/${mesh}/scene.gltf`)
@@ -27,10 +27,10 @@ const model$ = showModel$.switchMap(({ mesh, rx, ry, rz }) => {
           .do(log('Model loader'))
           .map(({ progress, result }) => state =>
             state
-              .set('loading', `model ${mesh} ${formatProgress(progress)}`)
+              .set('loading', `model ‘${mesh}’ (${formatProgress(progress)})`)
               .setIn(['models', mesh], result)
           ),
-        Observable.of(state => state.delete('loading'))
+          Observable.of(state => state.delete('loading'))
       )
 })
 

@@ -17,7 +17,7 @@ export default function createTransition$(
   const to$ = new Subject()
   const out$ = to$.switchMap(to => {
     return to.skipTransition
-      ? Observable.of(minusSkip(to)).do(v => current = v)
+      ? Observable.of(minusSkip(to)).do(v => (current = v))
       : Observable.interval(interval)
           .take(ticks)
           .map(t => (t + 1) / ticks)
