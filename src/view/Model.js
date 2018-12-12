@@ -1,10 +1,10 @@
 import Annotation from './Annotation'
 import React from 'react'
 import Rotation from './Rotation'
-import createTransition$ from './transition'
+import createTransition$ from '../transition'
 import sizeMe from 'react-sizeme'
 import style from './Model.module.css'
-import toFloat from './to-float'
+import toFloat from '../to-float'
 import { map } from 'ramda'
 import {
   AmbientLight,
