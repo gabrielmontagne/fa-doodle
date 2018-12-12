@@ -1,7 +1,7 @@
 import AxisX from './AxisX'
 import AxisY from './AxisY'
 import React from 'react'
-import createTransition$ from './transition'
+import createTransition$ from '../transition'
 import sizeMe from 'react-sizeme'
 import style from './Timeline.module.css'
 import { List } from 'immutable'

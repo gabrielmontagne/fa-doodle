@@ -1,6 +1,6 @@
 import React from 'react'
 import style from './Rotation.module.css'
-import { showModel$ } from './intents'
+import { showModel$ } from '../intents'
 
 export default function Rotation(props) {
   const { rx, ry, rz, mesh } = props
