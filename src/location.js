@@ -1,5 +1,5 @@
-import log from 'caballo-vivo/src/log'
-import { createLocation$ } from 'caballo-vivo/src/location'
+import log from '@zambezi/caballo-vivo/src/log'
+import { createLocation$ } from '@zambezi/caballo-vivo/src/location'
 import { showNoise$, showModel$ } from './intents'
 
 const pathToIntent = {

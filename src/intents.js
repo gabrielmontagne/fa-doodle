@@ -1,4 +1,4 @@
-import log from 'caballo-vivo/src/log'
+import log from '@zambezi/caballo-vivo/src/log'
 import { Subject } from 'rxjs'
 
 export const showNoise$ = new Subject().do(log('Show noise'))
