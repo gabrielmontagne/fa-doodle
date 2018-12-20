@@ -1,6 +1,6 @@
 import log from './caballo-vivo/log'
 import { OrderedMap } from 'immutable'
-import { createLocation$ } from './caballo-vivo/location'
+import { createLocation$ } from './caballo-vivo/location2'
 import { map, tap } from 'rxjs/operators'
 import { showNoise$, showModel$ } from './intents'
 
