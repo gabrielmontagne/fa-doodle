@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
-    "caballo-vivo": "git+ssh://git@github.com/zambezi/caballo-vivo.git",
+    "@zambezi/caballo-vivo": "^0.0.1",
     "d3-array": "^2.0.2",
     "d3-ease": "^1.0.5",
     "d3-format": "^1.3.2",
