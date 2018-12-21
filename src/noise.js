@@ -2,7 +2,8 @@ import Simplex from 'perlin-simplex'
 import log from './caballo-vivo/log'
 import toFloat from './to-float'
 import { Map, List } from 'immutable'
-import { Observable } from 'rxjs'
+import { merge, interval } from 'rxjs'
+import { startWith, map, switchMap, scan, tap, take } from 'rxjs/operators'
 import { add, curry } from 'ramda'
 import { createNavigateTo$ } from './caballo-vivo/location'
 import { format } from 'd3-format'
@@ -22,27 +23,32 @@ const toItem = curry((h, v, u, i) =>
 )
 const coordFromat = format('.1f')
 
-const noise$ = showNoise$.map(toFloat).switchMap(({ h, v, u }) =>
-  Observable.merge(
-    Observable.interval(1200)
-      .startWith(-1)
-      .map(bump)
-      .scan(
-        (series, next) =>
-          series.map((acc, i) =>
-            acc.slice(1).push(toItem(h, v, u * i)(next))
-          ),
-        List(
-          range(series).map(i =>
-            List(range(bufferSize - 1).map(toItem(h, v, u * i)))
+const noise$ = showNoise$.pipe(
+  map(toFloat),
+  switchMap(({ h, v, u }) =>
+    merge(
+      interval(1200).pipe(
+        startWith(-1),
+        map(bump),
+        scan(
+          (series, next) =>
+            series.map((acc, i) =>
+              acc.slice(1).push(toItem(h, v, u * i)(next))
+            ),
+          List(
+            range(series).map(i =>
+              List(range(bufferSize - 1).map(toItem(h, v, u * i)))
+            )
           )
-        )
-      )
-      .do(log('Noise'))
-      .map(noise => state => state.set('noise', noise)),
+        ),
 
-    createNavigateTo$(
-      `/curve/${coordFromat(h)}/${coordFromat(v)}/${coordFromat(u)}`
+        tap(log('Noise')),
+        take(5),
+        map(noise => state => state.set('noise', noise))
+      ),
+      createNavigateTo$(
+        `/curve/${coordFromat(h)}/${coordFromat(v)}/${coordFromat(u)}`
+      )
     )
   )
 )
