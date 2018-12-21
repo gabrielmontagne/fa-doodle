@@ -16,14 +16,11 @@ export default function createTransition$(
   const ticks = duration / period
   let current = start
   const to$ = new Subject()
-  const out$ = to$
-
-    .pipe(
+  const out$ = to$.pipe(
     switchMap(to => {
-    return to.skipTransition
-      ? of(minusSkip(to)).pipe(tap(v => (current = v)))
-      : interval(period)
-          .pipe(
+      return to.skipTransition
+        ? of(minusSkip(to)).pipe(tap(v => (current = v)))
+        : interval(period).pipe(
             take(ticks),
             map(t => (t + 1) / ticks),
             startWith(0),
@@ -32,8 +29,7 @@ export default function createTransition$(
             tap(v => (current = v))
           )
     })
-    )
-
+  )
 
   return Subject.create(to$, out$)
 }

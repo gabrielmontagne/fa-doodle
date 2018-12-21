@@ -3,7 +3,7 @@ import log from './caballo-vivo/log'
 import toFloat from './to-float'
 import { Map, List } from 'immutable'
 import { merge, interval } from 'rxjs'
-import { startWith, map, switchMap, scan, tap, take } from 'rxjs/operators'
+import { startWith, map, switchMap, scan, tap } from 'rxjs/operators'
 import { add, curry } from 'ramda'
 import { createNavigateTo$ } from './caballo-vivo/location'
 import { format } from 'd3-format'
@@ -43,7 +43,6 @@ const noise$ = showNoise$.pipe(
         ),
 
         tap(log('Noise')),
-        take(5),
         map(noise => state => state.set('noise', noise))
       ),
       createNavigateTo$(
