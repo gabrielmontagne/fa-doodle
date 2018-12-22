@@ -1,9 +1,9 @@
 import GLTFLoader from 'three-gltf-loader'
-import log from './caballo-vivo/log'
+import log from '@zambezi/caballo-vivo/src/log'
 import { fromJS, Map } from 'immutable'
 import { Observable, concat, of } from 'rxjs'
 import { tap, switchMap, map } from 'rxjs/operators'
-import { createNavigateTo$ } from './caballo-vivo/location'
+import { createNavigateTo$ } from '@zambezi/caballo-vivo/src/location'
 import { format } from 'd3-format'
 import { showModel$ } from './intents'
 

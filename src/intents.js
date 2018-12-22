@@ -1,4 +1,4 @@
-import log from './caballo-vivo/log'
+import log from '@zambezi/caballo-vivo/src/log'
 import { Subject } from 'rxjs'
 import { tap } from 'rxjs/operators'
 
