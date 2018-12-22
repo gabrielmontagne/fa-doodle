@@ -7,14 +7,14 @@ import Timeline from './view/Timeline'
 import log from '@zambezi/caballo-vivo/src/log'
 import { Router, Switch, Route } from 'react-router-dom'
 import { Subject } from 'rxjs'
+import { share, tap, map } from 'rxjs/operators'
 import { history } from '@zambezi/caballo-vivo/src/location'
 import { partialRight } from 'ramda'
 import { render } from 'react-dom'
 
 const domSink = partialRight(render, [document.getElementById('root')])
-const render$ = new Subject().share().do(log('Render state'))
-
-render$.map(toView).subscribe(domSink)
+const render$ = new Subject().pipe(share(), tap(log('Render state')))
+render$.pipe(map(toView)).subscribe(domSink)
 
 export default render$
 
