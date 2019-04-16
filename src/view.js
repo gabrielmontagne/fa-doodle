@@ -4,7 +4,7 @@ import Loading from './view/Loading'
 import Model from './view/Model'
 import Nav from './view/Nav'
 import Timeline from './view/Timeline'
-import log from '@zambezi/caballo-vivo/src/log'
+import flog from '@zambezi/caballo-vivo/src/flog'
 import { Router, Switch, Route } from 'react-router-dom'
 import { Subject } from 'rxjs'
 import { share, tap, map } from 'rxjs/operators'
@@ -13,7 +13,7 @@ import { partialRight } from 'ramda'
 import { render } from 'react-dom'
 
 const domSink = partialRight(render, [document.getElementById('root')])
-const render$ = new Subject().pipe(share(), tap(log('Render state')))
+const render$ = new Subject().pipe(share(), flog('Render state'))
 render$.pipe(map(toView)).subscribe(domSink)
 
 export default render$

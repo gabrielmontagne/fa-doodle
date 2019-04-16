@@ -1,7 +1,6 @@
-import log from '@zambezi/caballo-vivo/src/log'
+import flog from '@zambezi/caballo-vivo/src/flog'
 import { Subject } from 'rxjs'
-import { tap } from 'rxjs/operators'
 
-export const showNoise$ = new Subject().pipe(tap(log('Show noise')))
-export const showModel$ = new Subject().pipe(tap(log('Show model')))
-export const resetToHome$ = new Subject().pipe(tap(log('Reset to home')))
+export const showNoise$ = new Subject().pipe(flog('Show noise'))
+export const showModel$ = new Subject().pipe(flog('Show model'))
+export const resetToHome$ = new Subject().pipe(flog('Reset to home'))
