@@ -10,7 +10,7 @@ import { tap, switchMap, map } from 'rxjs/operators'
 const formatProgress = format('.1f')
 let modelCache = Map()
 
-const model$ = showModel$.pipe(
+const model3D$ = showModel$.pipe(
   switchMap(({ mesh, rx, ry, rz }) => {
     return modelCache.has(mesh)
       ? concat(
@@ -42,7 +42,7 @@ const model$ = showModel$.pipe(
   })
 )
 
-export default model$
+export default model3D$
 
 function createLoader$(url) {
   return Observable.create(o => {
