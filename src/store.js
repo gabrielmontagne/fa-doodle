@@ -8,8 +8,8 @@ import { of, merge } from 'rxjs'
 
 const store$ = merge(
   noise$.pipe(stow('noise')),
-  model$, 
-  location$
+  location$.pipe(stow('location')),
+  model$,
 )
   .pipe(
     catchError(error => of(state => state.set('error', error))),
