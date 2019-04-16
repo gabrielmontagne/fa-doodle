@@ -1,7 +1,6 @@
-import log from '@zambezi/caballo-vivo/src/log'
+import flog from '@zambezi/caballo-vivo/src/flog'
 import { OrderedMap } from 'immutable'
 import { createLocation$ } from '@zambezi/caballo-vivo/src/location'
-import { tap } from 'rxjs/operators'
 import { showNoise$, showModel$ } from './intents'
 
 const pathToIntent = OrderedMap([

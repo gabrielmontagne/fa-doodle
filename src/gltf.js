@@ -1,11 +1,11 @@
 import GLTFLoader from 'three-gltf-loader'
-import log from '@zambezi/caballo-vivo/src/log'
-import { fromJS, Map } from 'immutable'
+import flog from '@zambezi/caballo-vivo/src/flog'
 import { Observable, concat, of } from 'rxjs'
-import { tap, switchMap, map } from 'rxjs/operators'
 import { createNavigateTo$ } from '@zambezi/caballo-vivo/src/location'
 import { format } from 'd3-format'
+import { fromJS, Map } from 'immutable'
 import { showModel$ } from './intents'
+import { tap, switchMap, map } from 'rxjs/operators'
 
 const formatProgress = format('.1f')
 let modelCache = Map()
@@ -15,7 +15,7 @@ const model$ = showModel$.pipe(
     return modelCache.has(mesh)
       ? concat(
           of(modelCache.get(mesh)).pipe(
-            tap(log('Restore cached model')),
+            flog('Restore cached model'),
             map(model => state => state.setIn(['models', mesh], model))
           ),
           createNavigateTo$(`/mesh/${mesh}/${rx}/${ry}/${rz}`)
@@ -27,7 +27,7 @@ const model$ = showModel$.pipe(
             `${process.env.PUBLIC_URL}/models/${mesh}/scene.gltf`
           ).pipe(
             tap(({ result }) => (modelCache = modelCache.set(mesh, result))),
-            tap(log('Model loader')),
+            flog('Model loader'),
             map(({ progress, result }) => state =>
               state
                 .set(
