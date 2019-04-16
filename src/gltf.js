@@ -6,27 +6,18 @@ import { format } from 'd3-format'
 import { fromJS, Map } from 'immutable'
 import { showModel$ } from './intents'
 import { tap, switchMap, map } from 'rxjs/operators'
+import { cached$ } from './rx-immutable'
 
 const formatProgress = format('.1f')
-let modelCache = Map()
+const createCachedLoader$ = cached$(createLoader$)
 
 const model3D$ = showModel$.pipe(
   switchMap(({ mesh, rx, ry, rz }) => {
-    return modelCache.has(mesh)
-      ? concat(
-          of(modelCache.get(mesh)).pipe(
-            flog('Restore cached model'),
-            map(model => state => state.setIn(['models', mesh], model))
-          ),
-          createNavigateTo$(`/mesh/${mesh}/${rx}/${ry}/${rz}`)
-        )
-      : concat(
+    return concat(
           of(state => state.set('loading', `model ‘${mesh}’`)),
           createNavigateTo$(`/mesh/${mesh}/${rx}/${ry}/${rz}`),
-          createLoader$(
-            `${process.env.PUBLIC_URL}/models/${mesh}/scene.gltf`
-          ).pipe(
-            tap(({ result }) => (modelCache = modelCache.set(mesh, result))),
+          createCachedLoader$(`${process.env.PUBLIC_URL}/models/${mesh}/scene.gltf`)
+      .pipe(
             flog('Model loader'),
             map(({ progress, result }) => state =>
               state
