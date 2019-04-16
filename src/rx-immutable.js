@@ -1,7 +1,6 @@
 import { distinctUntilChanged as d, map, publishReplay, refCount } from 'rxjs/operators'
 import { equals, memoizeWith, identity } from 'ramda'
 import { isImmutable } from 'immutable'
-import flog from '@zambezi/caballo-vivo/src/flog'
 
 export function distinctUntilChanged(source) {
   return source.pipe(d(diligentEquals))
@@ -25,11 +24,7 @@ export function shareLast(source) {
 export function cached$(create$, key=identity) {
   return memoizeWith(key, withReplay$)
   function withReplay$(key) {
-    return create$(key).pipe(
-      flog(`cache miss ${key}`),
-      shareLast,
-      flog(`after cache ${key}`)
-    )
+    return create$(key).pipe(shareLast)
   }
 }
 
