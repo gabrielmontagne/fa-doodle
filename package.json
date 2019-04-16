@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
-    "@zambezi/caballo-vivo": "^0.1.0",
+    "@zambezi/caballo-vivo": "^0.3.0",
     "d3-array": "^2.0.2",
     "d3-ease": "^1.0.5",
     "d3-format": "^1.3.2",
@@ -17,7 +17,7 @@
     "react": "^16.6.3",
     "react-dom": "^16.6.3",
     "react-router-dom": "^4.3.1",
-    "react-scripts": "2.1.1",
+    "react-scripts": "^2.1.3",
     "react-sizeme": "^2.5.2",
     "rxjs": "^6.3.3",
     "three": "^0.99.0",

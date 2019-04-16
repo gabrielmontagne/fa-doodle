@@ -1,11 +1,16 @@
-import { of, merge } from 'rxjs'
-import { catchError, scan, distinctUntilChanged, publishReplay, refCount } from 'rxjs/operators'
-import { Map } from 'immutable'
 import location$ from './location'
 import model$ from './gltf'
 import noise$ from './noise'
+import stow from '@zambezi/caballo-vivo/src/stow'
+import { Map } from 'immutable'
+import { catchError, scan, distinctUntilChanged, publishReplay, refCount } from 'rxjs/operators'
+import { of, merge } from 'rxjs'
 
-const store$ = merge(noise$, model$, location$)
+const store$ = merge(
+  noise$.pipe(stow('noise')),
+  model$, 
+  location$
+)
   .pipe(
     catchError(error => of(state => state.set('error', error))),
     scan((state, reduce) => reduce(state), Map()),
