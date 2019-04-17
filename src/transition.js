@@ -13,23 +13,30 @@ export default function createTransition$(
   interpolator = interpolate,
   ease = easeExpInOut
 ) {
+  const to$ = new Subject()
+  const out$ = to$.pipe(transitionOp(start, duration, period, interpolator, ease))
+  return Subject.create(to$, out$)
+}
+
+export function transitionOp(start, duration=1000, period=20, interpolator=interpolate, ease=easeExpInOut) {
+
   const ticks = duration / period
   let current = start
-  const to$ = new Subject()
-  const out$ = to$.pipe(
-    switchMap(to => {
-      return to.skipTransition
-        ? of(minusSkip(to)).pipe(tap(v => (current = v)))
-        : interval(period).pipe(
-            take(ticks),
-            map(t => (t + 1) / ticks),
-            startWith(0),
-            map(ease),
-            map(interpolator(current, minusSkip(to))),
-            tap(v => (current = v))
-          )
-    })
-  )
 
-  return Subject.create(to$, out$)
+  return function transition(source$) {
+    return source$.pipe(
+      switchMap(to => {
+        return to.skipTransition
+          ? of(minusSkip(to)).pipe(tap(v => (current = v)))
+          : interval(period).pipe(
+              take(ticks),
+              map(t => (t + 1) / ticks),
+              startWith(0),
+              map(ease),
+              map(interpolator(current, minusSkip(to))),
+              tap(v => (current = v))
+            )
+      })
+    )
+  }
 }
