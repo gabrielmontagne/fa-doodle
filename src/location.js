@@ -1,7 +1,6 @@
-import log from '@zambezi/caballo-vivo/src/log'
+import flog from '@zambezi/caballo-vivo/src/flog'
 import { OrderedMap } from 'immutable'
 import { createLocation$ } from '@zambezi/caballo-vivo/src/location'
-import { map, tap } from 'rxjs/operators'
 import { showNoise$, showModel$ } from './intents'
 
 const pathToIntent = OrderedMap([
@@ -9,9 +8,6 @@ const pathToIntent = OrderedMap([
   ['/mesh/:mesh/:rx/:ry/:rz', coords => showModel$.next(coords)],
 ])
 
-const location$ = createLocation$(pathToIntent).pipe(
-  tap(log('Location')),
-  map(location => state => state.set('location', location))
-)
+const location$ = createLocation$(pathToIntent).pipe(flog('Location'))
 
 export default location$
