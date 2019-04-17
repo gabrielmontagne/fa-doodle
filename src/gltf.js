@@ -3,9 +3,9 @@ import flog from '@zambezi/caballo-vivo/src/flog'
 import { Observable, concat, of } from 'rxjs'
 import { createNavigateTo$ } from '@zambezi/caballo-vivo/src/location'
 import { format } from 'd3-format'
-import { fromJS, Map } from 'immutable'
+import { fromJS } from 'immutable'
 import { showModel$ } from './intents'
-import { tap, switchMap, map } from 'rxjs/operators'
+import { switchMap, map } from 'rxjs/operators'
 import { cached$ } from './rx-immutable'
 
 const formatProgress = format('.1f')
