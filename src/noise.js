@@ -1,9 +1,9 @@
 import Simplex from 'perlin-simplex'
-import log from '@zambezi/caballo-vivo/src/log'
+import flog from '@zambezi/caballo-vivo/src/flog'
 import toFloat from './to-float'
 import { Map, List } from 'immutable'
 import { merge, interval } from 'rxjs'
-import { startWith, map, switchMap, scan, tap } from 'rxjs/operators'
+import { startWith, map, switchMap, scan } from 'rxjs/operators'
 import { add, curry } from 'ramda'
 import { createNavigateTo$ } from '@zambezi/caballo-vivo/src/location'
 import { format } from 'd3-format'
@@ -41,9 +41,7 @@ const noise$ = showNoise$.pipe(
             )
           )
         ),
-
-        tap(log('Noise')),
-        map(noise => state => state.set('noise', noise))
+        flog('Noise'),
       ),
       createNavigateTo$(
         `/curve/${coordFromat(h)}/${coordFromat(v)}/${coordFromat(u)}`
